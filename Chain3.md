@@ -4,7 +4,7 @@ name: Javascript API
 ---
 
 # Chain3 JavaScript API
-MOAC JavaScript API was built for MOAC chain. It followed the Ethereum web3.js API routines and made it close enough so the users can easily move their Ðapp to MOAC chain. 
+MOAC JavaScript API was built for MOAC chain. It followed the Moac chain3.js API routines and made it close enough so the users can easily move their Ðapp to MOAC chain. 
 
 To make a Ðapp work on MOAC network, user should use the `chain3` object provided by the [chain3.js library](https://github.com/MOACChain/chain3.js). It communicates to a local MOAC  node through [RPC calls](https://github.com/MOACChain/wiki/wiki/JSON-RPC). chain3.js works with any MOAC node, which exposes an RPC layer.
 

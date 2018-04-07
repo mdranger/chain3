@@ -1,5 +1,5 @@
 # MOAC JavaScript API version 0.1.2.
-
+Modified from ethereum:web3.js 0.20.0
 
 var Chain3 = require('chain3');
 
