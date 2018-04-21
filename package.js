@@ -1,8 +1,8 @@
 /* jshint ignore:start */
 Package.describe({
     name: 'moaclib:chain3',
-    version: '0.1.4',
-    summary: 'Moac JavaScript API, middleware to talk to a ethreum node over RPC',
+    version: '0.1.5',
+    summary: 'Moac JavaScript API, middleware to talk to a MOAC node over RPC',
     git: 'https://github.com/mdranger/chain3.git',
     // By default, Meteor will default to using README.md for documentation.
     // To avoid submitting documentation, set this field to null.
