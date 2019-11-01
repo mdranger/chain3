@@ -39,7 +39,7 @@ var Personal = require('web3-eth-personal');
 // var Shh = require('web3-shh');
 // var Bzz = require('web3-bzz');
 var utils = require('web3-utils');
-var Mc = require('../../chain3-mc')
+var Mc = require('../../chain3-mc/src')
 
 var Chain3 = function Chain3() {
     var _this = this;
