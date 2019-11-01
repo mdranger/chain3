@@ -53,15 +53,15 @@ var transactionFromBlockCall = function (args) {
 };
 
 var uncleCall = function (args) {
-    return (_.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'mc_getUncleByBlockHashAndIndex' : 'mc_getUncleByBlockNumberAndIndex';
+    return (_.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'eth_getUncleByBlockHashAndIndex' : 'eth_getUncleByBlockNumberAndIndex';
 };
 
 var getBlockTransactionCountCall = function (args) {
-    return (_.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'mc_getBlockTransactionCountByHash' : 'mc_getBlockTransactionCountByNumber';
+    return (_.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'eth_getBlockTransactionCountByHash' : 'eth_getBlockTransactionCountByNumber';
 };
 
 var uncleCountCall = function (args) {
-    return (_.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'mc_getUncleCountByBlockHash' : 'mc_getUncleCountByBlockNumber';
+    return (_.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'eth_getUncleCountByBlockHash' : 'eth_getUncleCountByBlockNumber';
 };
 
 
@@ -203,22 +203,22 @@ var Mc = function Moac() {
         // }),
         new Method({
             name: 'getProtocolVersion',
-            call: 'mc_protocolVersion',
+            call: 'eth_protocolVersion',
             params: 0
         }),
         new Method({
             name: 'getCoinbase',
-            call: 'mc_coinbase',
+            call: 'eth_coinbase',
             params: 0
         }),
         new Method({
             name: 'isMining',
-            call: 'mc_mining',
+            call: 'eth_mining',
             params: 0
         }),
         new Method({
             name: 'getHashrate',
-            call: 'mc_hashrate',
+            call: 'eth_hashrate',
             params: 0,
             outputFormatter: utils.hexToNumber
         }),
@@ -236,13 +236,13 @@ var Mc = function Moac() {
         }),
         new Method({
             name: 'getAccounts',
-            call: 'mc_accounts',
+            call: 'eth_accounts',
             params: 0,
             outputFormatter: utils.toChecksumAddress
         }),
         new Method({
             name: 'getBlockNumber',
-            call: 'mc_blockNumber',
+            call: 'eth_blockNumber',
             params: 0,
             outputFormatter: utils.hexToNumber
         }),
@@ -255,13 +255,13 @@ var Mc = function Moac() {
         }),
         new Method({
             name: 'getStorageAt',
-            call: 'mc_getStorageAt',
+            call: 'eth_getStorageAt',
             params: 3,
             inputFormatter: [formatter.inputAddressFormatter, utils.numberToHex, formatter.inputDefaultBlockNumberFormatter]
         }),
         new Method({
             name: 'getCode',
-            call: 'mc_getCode',
+            call: 'eth_getCode',
             params: 2,
             inputFormatter: [formatter.inputAddressFormatter, formatter.inputDefaultBlockNumberFormatter]
         }),
@@ -343,13 +343,13 @@ var Mc = function Moac() {
         }),
         new Method({
             name: 'sendTransaction',
-            call: 'mc_sendTransaction',
+            call: 'eth_sendTransaction',
             params: 1,
             inputFormatter: [formatter.inputTransactionFormatter]
         }),
         new Method({
             name: 'sign',
-            call: 'mc_sign',
+            call: 'eth_sign',
             params: 2,
             inputFormatter: [formatter.inputSignFormatter, formatter.inputAddressFormatter],
             transformPayload: function (payload) {
@@ -372,12 +372,12 @@ var Mc = function Moac() {
         }),
         new Method({
             name: 'submitWork',
-            call: 'mc_submitWork',
+            call: 'eth_submitWork',
             params: 3
         }),
         new Method({
             name: 'getWork',
-            call: 'mc_getWork',
+            call: 'eth_getWork',
             params: 0
         }),
 
@@ -385,7 +385,7 @@ var Mc = function Moac() {
         // subscriptions
         new Subscriptions({
             name: 'subscribe',
-            type: 'mc',
+            type: 'eth',
             subscriptions: {
                 'newBlockHeaders': {
                     // TODO rename on RPC side?
