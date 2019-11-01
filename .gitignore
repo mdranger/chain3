@@ -1,3 +1,5 @@
 node_modules/
 package-lock.json
 dist/
+WORKLOG.md
+Moac-Work.code-workspace
