@@ -24,15 +24,6 @@ var at = function at(bytes, index) {
   return parseInt(bytes.slice(index * 2 + 2, index * 2 + 4), 16);
 };
 
-var random = function random(bytes) {
-  var rnd = void 0;
-  if (typeof window !== "undefined" && window.crypto && window.crypto.getRandomValues) rnd = window.crypto.getRandomValues(new Uint8Array(bytes));else if (typeof require !== "undefined") rnd = require("c" + "rypto").randomBytes(bytes);else throw "Safe random numbers not available.";
-  var hex = "0x";
-  for (var i = 0; i < bytes; ++i) {
-    hex += ("00" + rnd[i].toString(16)).slice(-2);
-  }return hex;
-};
-
 var length = function length(a) {
   return (a.length - 2) / 2;
 };
@@ -189,7 +180,6 @@ var toString = function toString(bytes) {
 };
 
 module.exports = {
-  random: random,
   length: length,
   concat: concat,
   flatten: flatten,
