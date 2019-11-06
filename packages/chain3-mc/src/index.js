@@ -1,5 +1,5 @@
 /*
- This file is part of web3.js.
+ This file is part of chain3.js.
 
  web3.js is free software: you can redistribute it and/or modify
  it under the terms of the GNU Lesser General Public License as published by
@@ -28,7 +28,7 @@ var _ = require('underscore');
 var core = require('web3-core');
 var helpers = require('web3-core-helpers');
 var Subscriptions = require('web3-core-subscriptions').subscriptions;
-var Method = require('web3-core-method');
+var Method = require('../../chain3-core-method');    //wang
 var utils = require('web3-utils');
 var Net = require('web3-net');
 
@@ -359,7 +359,7 @@ var Mc = function Moac() {
         }),
         new Method({
             name: 'call',
-            call: 'eth_call',
+            call: 'mc_call',
             params: 2,
             inputFormatter: [formatter.inputCallFormatter, formatter.inputDefaultBlockNumberFormatter]
         }),

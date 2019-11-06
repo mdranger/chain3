@@ -162,13 +162,14 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
     }
 
     function signed (tx) {
-
+	//console.log('accounts,tx.gaslimit 1;'+tx.gasLimit);
+	//console.log('accounts,tx.gas 1a;'+tx.gas);
         if (!tx.gas && !tx.gasLimit) {
             error = new Error('"gas" is missing');
         }
 
         if (tx.nonce  < 0 ||
-            tx.gasLimit  < 0 ||
+            tx.gas  < 0 ||
             tx.gasPrice  < 0 ||
             tx.chainId  < 0) {
             error = new Error('Gas, gasPrice, nonce or chainId is lower than 0');
@@ -209,16 +210,19 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
             // Payload      []byte          `json:"input"    gencodec:"required"`
             // ShardingFlag uint64 `json:"shardingFlag" gencodec:"required"`
             // Via            *common.Address `json:"to"       rlp:"nil"`
-console.log("RLP transaction:", transaction);
+//console.log("RLP transaction:", transaction);
             // // Signature values
             // V *big.Int `json:"v" gencodec:"required"`
             // R *big.Int `json:"r" gencodec:"required"`
             // S *big.Int `json:"s" gencodec:"required"`
+	    //console.log('accounts,tx.gas 2a;'+tx.gas);
+	    //console.log('mc-account,tx.gasLimit 2:'+tx.gasLimit);
+	    //console.log('mc-account,transaction.gaslimit 3:'+transaction.gasLimit);
             var rlpEncoded = RLP.encode([
                 Bytes.fromNat(transaction.nonce),
                       Bytes.fromNat(transaction.systemContract),
                 Bytes.fromNat(transaction.gasPrice),
-                Bytes.fromNat(transaction.gasLimit),
+                Bytes.fromNat(transaction.gas),
                 transaction.to.toLowerCase(),
                 Bytes.fromNat(transaction.value),
                 transaction.data,
@@ -227,7 +231,7 @@ console.log("RLP transaction:", transaction);
                 Bytes.fromNat(transaction.chainId || "0x1"),
                 "0x",
                 "0x"]);
-console.log("rlpEncoded:", rlpEncoded);
+//console.log("rlpEncoded:", rlpEncoded);
 
             var hash = Hash.keccak256(rlpEncoded);
     // for MOAC, keep 9 fields instead of 6
@@ -242,12 +246,12 @@ console.log("rlpEncoded:", rlpEncoded);
             return Promise.reject(error);
     }
 
-console.log("hash:", Hash.keccak256(rlpEncoded));
+//console.log("hash:", Hash.keccak256(rlpEncoded));
             var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
 
             var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));
 
-console.log("decodeTx:", rawTx);
+//console.log("decodeTx:", rawTx);
 
     //Replace the V field with chainID info
     var newV = newsign.v + 8 + transaction.chainId * 2;
@@ -303,6 +307,7 @@ console.log("decodeTx:", rawTx);
         return Promise.resolve(signed(tx));
     }
 
+	//console.log('accounts,tx.gasLimit 5:'+tx.gasLimit);
 
     // Otherwise, get the missing info from the MOAC Vnode
     return Promise.all([
