@@ -12,6 +12,7 @@ var useLocalWallet = function (test, provider, chain3) {
 
     provider.injectResult(1);
     provider.injectValidation(function (payload) {
+ 
         assert.equal(payload.jsonrpc, '2.0');
         assert.equal(payload.method, 'net_version');
         assert.deepEqual(payload.params, []);
@@ -20,7 +21,7 @@ var useLocalWallet = function (test, provider, chain3) {
     provider.injectResult('0xa');
     provider.injectValidation(function (payload) {
         assert.equal(payload.jsonrpc, '2.0');
-        assert.equal(payload.method, 'eth_getTransactionCount');
+        assert.equal(payload.method, 'mc_getTransactionCount');
         assert.deepEqual(payload.params, [test.walletFrom, "latest"]);
     });
 };
@@ -43,17 +44,16 @@ var runTests = function (obj, method, tests) {
             tests.forEach(function (test, index) {
                 it('promise test: ' + index, function (done) {
 
-                    // given
+		    // given
                     var w3;
                     var result;
                     var provider = new FakeIpcProvider();
                     var chain3 = new Chain3(provider);
-
-                    // add a wallet
+		    
+		    // add a wallet
                     if(test.useLocalWallet) {
                         useLocalWallet(test, provider, chain3);
                     }
-
 
                     provider.injectResult(clone(test.result));
                     provider.injectValidation(function (payload) {
@@ -61,6 +61,7 @@ var runTests = function (obj, method, tests) {
                         assert.equal(payload.method, test.call);
                         assert.deepEqual(payload.params, test.formattedArgs || []);
                     });
+		    
 
                     if (test.call2) {
                         provider.injectResult(clone(test.result2));
@@ -70,13 +71,13 @@ var runTests = function (obj, method, tests) {
                             assert.deepEqual(payload.params, test.formattedArgs2 || []);
                         });
                     }
-
+      
 
                     // if notification its sendTransaction, which needs two more results, subscription and receipt
                     if(test.notification) {
                         provider.injectResult(null);
                         provider.injectValidation(function (payload) {
-                            assert.equal(payload.method, 'eth_getTransactionReceipt');
+                            assert.equal(payload.method, 'mc_getTransactionReceipt');
                         });
 
                         provider.injectResult(clone(test.result));
@@ -99,7 +100,7 @@ var runTests = function (obj, method, tests) {
                     if(test.error) {
                         if (obj) {
                             if(_.isArray(obj)) {
-                                w3 = chain3[obj[0]][obj[1]];
+			    	w3 = chain3[obj[0]][obj[1]];
                             } else {
                                 w3 = chain3[obj];
                             }
@@ -119,11 +120,11 @@ var runTests = function (obj, method, tests) {
                             } else {
                                 w3 = chain3[obj];
                             }
-
                             result = w3[method].apply(w3, args);
                         } else {
                             result = chain3[method].apply(chain3, args);
                         }
+			
 
                         result.then(function(result){
                             if(test.notification) {
@@ -138,9 +139,9 @@ var runTests = function (obj, method, tests) {
                                     "gasUsed": 520464
                                 });
                             } else {
-                                assert.deepEqual(result, test.formattedResult);
+ 
+                                 assert.deepEqual(result, test.formattedResult);
                             }
-
                             done();
                         });
                     }
@@ -191,20 +192,20 @@ var runTests = function (obj, method, tests) {
                             assert.throws(function(){ chain3[method].apply(chain3, args); });
                         }
 
-                        done();
+                       done();
 
                     } else {
                         // add callback
                         args.push(function (err, result) {
                             assert.deepEqual(result, test.formattedResult);
-
-                            done();
+			
+                           done();
                         });
 
-                        // when
+			// when
                         if (obj) {
                             if(_.isArray(obj)) {
-                                w3 = chain3[obj[0]][obj[1]];
+                               w3 = chain3[obj[0]][obj[1]];
                             } else {
                                 w3 = chain3[obj];
                             }
@@ -212,7 +213,7 @@ var runTests = function (obj, method, tests) {
                             w3[method].apply(w3, args);
                         } else {
                             chain3[method].apply(chain3, args);
-                        }
+                       }
                     }
                 });
             });

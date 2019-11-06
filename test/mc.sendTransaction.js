@@ -25,15 +25,15 @@ var tests = [{
     }],
     result: '0x1234567',
     formattedResult: '0x1234567',
-    //notification: {
-    //    method: 'mc_subscription',
-    //    params: {
-    //        subscription: '0x1234567',
-    //        result: {
-    //            blockNumber: '0x10'
-    //        }
-    //    }
-    //},
+    notification: {
+        method: 'mc_subscription',
+        params: {
+            subscription: '0x1234567',
+            result: {
+               blockNumber: '0x10'
+            }
+        }
+    },
     call: 'mc_'+ method
 },
 // test with gasPrice missing
@@ -43,15 +43,15 @@ var tests = [{
         to: '0xdbdbdB2cBD23b783741e8d7fcF51e459b497e4a6', // checksum address
         value: '1234567654321'
     }],
-    //notification: {
-    //    method: 'mc_subscription',
-    //    params: {
-    //        subscription: '0x1234567',
-    //        result: {
-    //            blockNumber: '0x10'
-     //       }
-     //   }
-    //},
+    notification: {
+        method: 'mc_subscription',
+        params: {
+            subscription: '0x1234567',
+            result: {
+                blockNumber: '0x10'
+            }
+        }
+    },
     call: 'mc_gasPrice',
     formattedArgs: [],
     result: '0x1234567',
@@ -65,7 +65,7 @@ var tests = [{
         gasPrice: "0x1234567"
     }],
     result2: '0x1234567'
-},{
+},{    
     args: [{
         from: '0XDBDBDB2CBD23B783741E8D7FCF51E459B497E4A6',
         to: '0XDBDBDB2CBD23B783741E8D7FCF51E459B497E4A6',
@@ -82,15 +82,15 @@ var tests = [{
     }],
     result: '0x12345678976543213456786543212345675432',
     formattedResult: '0x12345678976543213456786543212345675432',
-    //notification: {
-    //    method: 'mc_subscription',
-    //    params: {
-    //        subscription: '0x12345678976543213456786543212345675432',
-    //        result: {
-    //            blockNumber: '0x10'
-    //        }
-    //    }
-    //},
+    notification: {
+        method: 'mc_subscription',
+        params: {
+            subscription: '0x12345678976543213456786543212345675432',
+            result: {
+                blockNumber: '0x10'
+            }
+        }
+    },
     call: 'mc_'+ method
 },{
     args: [{
@@ -107,19 +107,19 @@ var tests = [{
     }],
     result: '0x12345678976543213456786543212345675432',
     formattedResult: '0x12345678976543213456786543212345675432',
-    //notification: {
-    //    method: 'eth_subscription',
-    //    params: {
-    //        subscription: '0x12345678976543213456786543212345675432',
-    //        result: {
-    //            blockNumber: '0x10'
-    //        }
-    //    }
-    //},
+    notification: {
+        method: 'mc_subscription',
+        params: {
+            subscription: '0x12345678976543213456786543212345675432',
+            result: {
+                blockNumber: '0x10'
+            }
+        }
+    },
     call: 'mc_'+ method
 
 // using local wallet
-},{
+},{                 
     useLocalWallet: function (chain3) {
         chain3.mc.accounts.wallet.add('0xd7d364e720c129acb940439a84a99185dd55af6f6d105018a8acfb7f8c008142');
     },
@@ -131,18 +131,18 @@ var tests = [{
         gasPrice: '324234234234',
         gas: 500000
     }],
-    formattedArgs: ['0xf86b0a854b7dddc97a8307a12094dbdbdb2cbd23b783741e8d7fcf51e459b497e4a686011f71f76bb18026a0ce66ccabda889012314677073ded7bec9f763e564dfcff1135e7c6a3c5b89353a07bfa06fe1ba3f1804e4677295a5147e6c8b2224647cc2b7b62063081f6490bd3'],
+    formattedArgs:['0xf86e0a80854b7dddc97a8307a12094dbdbdb2cbd23b783741e8d7fcf51e459b497e4a686011f71f76bb180808026a08b5c63324e4073ea4d6570e1a8d42591ec37bb349822808a9014848cfcedbda6a0727dbf72ca25277dab5fdce24e36755856aebd20b008e1111f335b5430790cdc'],
     result: '0x12345678976543213456786543212345675432',
     formattedResult: '0x12345678976543213456786543212345675432',
-    //notification: {
-    //    method: 'mc_subscription',
-    //    params: {
-    //        subscription: '0x12345678976543213456786543212345675432',
-    //        result: {
-    //            blockNumber: '0x10'
-    //        }
-    //    }
-    //},
+    notification: {
+        method: 'mc_subscription',
+        params: {
+            subscription: '0x12345678976543213456786543212345675432',
+            result: {
+                blockNumber: '0x10'
+            }
+        }
+   },
     call: 'mc_sendRawTransaction'
 },{
     useLocalWallet: function (chain3) {
@@ -156,18 +156,18 @@ var tests = [{
         gasPrice: '324234234234',
         gas: 500000
     }],
-    formattedArgs: ['0xf86b0a854b7dddc97a8307a12094dbdbdb2cbd23b783741e8d7fcf51e459b497e4a686011f71f76bb18026a0fe620c94cc14fdcdef494a40caf9e2860d1a5929d95730e1b7a6a2041c9c507fa01d3d22e7ab1010fa95a357322ad14a8ce1b1b631d3bb9c123922ff8042c8fc8b'],
+    formattedArgs:['0xf86e0a80854b7dddc97a8307a12094dbdbdb2cbd23b783741e8d7fcf51e459b497e4a686011f71f76bb180808026a04f47404f176b7af2cfaf7ed091d9bd8a092fa54441e78d32151247be33bc22d8a01ca6e46ff23c6b94c5fad71e50b928138237c992583c125c9b2f97fb194d4c2b'],
     result: '0x12345678976543213456786543212345675432',
     formattedResult: '0x12345678976543213456786543212345675432',
-    //notification: {
-    //    method: 'mc_subscription',
-    //    params: {
-    //        subscription: '0x12345678976543213456786543212345675432',
-    //        result: {
-    //            blockNumber: '0x10'
-    //        }
-    //    }
-   // },
+    notification: {
+        method: 'mc_subscription',
+        params: {
+            subscription: '0x12345678976543213456786543212345675432',
+            result: {
+                blockNumber: '0x10'
+            }
+        }
+    },
     call: 'mc_sendRawTransaction'
 },{
     useLocalWallet: function (chain3) {
@@ -184,19 +184,19 @@ var tests = [{
         gasPrice: '324234234234',
         gas: 500000
     }],
-    formattedArgs: ['0xf86b0a854b7dddc97a8307a12094dbdbdb2cbd23b783741e8d7fcf51e459b497e4a686011f71f76bb18026a016a5bc4e1808e60a5d370f6b335be158673bd95c457ee7925dc8ae1bec69647fa03831c5e0a966a0aad0c67d6ddea55288f76ae1d73dfe11c6174a8682c2ec165d'],
+    formattedArgs: ['0xf86e0a80854b7dddc97a8307a12094dbdbdb2cbd23b783741e8d7fcf51e459b497e4a686011f71f76bb180808025a03bd1700de44a0fc4a6e083fbeabe73d70c6cb2e414801c22262af3e5b73ad030a034ff66210817cbcfc55e890d3264336d6287f1c82cd4801bafc0fcacbdee7e9a'],
     result: '0x12345678976543213456786543212345675432',
     formattedResult: '0x12345678976543213456786543212345675432',
-    //notification: {
-    //    method: 'mc_subscription',
-    //    params: {
-    //        subscription: '0x12345678976543213456786543212345675432',
-    //        result: {
-    //            blockNumber: '0x10'
-    //        }
-    //    }
-    //},
-    call: 'eth_sendRawTransaction'
+    notification: {
+        method: 'mc_subscription',
+        params: {
+            subscription: '0x12345678976543213456786543212345675432',
+          result: {
+                blockNumber: '0x10'
+            }
+        }
+    },
+    call: 'mc_sendRawTransaction'
 },{
     error: true, // only for testing
     args: [{
@@ -250,18 +250,18 @@ describe(method, function () {
 
 
             // if notification its sendTransaction, which needs two more results, subscription and receipt
-            //if(test.notification) {
-            //    // inject receipt
-            //    provider.injectResult({
-            //        "blockHash": "0x6fd9e2a26ab",
-            //        "blockNumber": "0x15df",
-            //        "transactionHash": "0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b",
-             //       "transactionIndex": "0x1",
-             //       "contractAddress": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
-             //       "cumulativeGasUsed": "0x7f110",
-            //        "gasUsed": "0x7f110"
-            //    });
-            //}
+            if(test.notification) {
+                // inject receipt
+                provider.injectResult({
+                    "blockHash": "0x6fd9e2a26ab",
+                    "blockNumber": "0x15df",
+                    "transactionHash": "0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b",
+                    "transactionIndex": "0x1",
+                    "contractAddress": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
+                    "cumulativeGasUsed": "0x7f110",
+                    "gasUsed": "0x7f110"
+                });
+            }
 
             var args = clone(test.args);
 
@@ -334,18 +334,18 @@ describe(method, function () {
 
 
             // if notification its sendTransaction, which needs two more results, subscription and receipt
-            //if(test.notification) {
+            if(test.notification) {
                 // inject receipt
-            //    provider.injectResult({
-            //        "blockHash": "0x6fd9e2a26ab",
-            //        "blockNumber": "0x15df",
-            //        "transactionHash": "0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b",
-            //        "transactionIndex": "0x1",
-            //        "contractAddress": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
-            //        "cumulativeGasUsed": "0x7f110",
-            //        "gasUsed": "0x7f110"
-            //    });
-            //}
+                provider.injectResult({
+                    "blockHash": "0x6fd9e2a26ab",
+                    "blockNumber": "0x15df",
+                    "transactionHash": "0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b",
+                    "transactionIndex": "0x1",
+                    "contractAddress": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
+                    "cumulativeGasUsed": "0x7f110",
+                    "gasUsed": "0x7f110"
+                });
+            }
 
             var args = clone(test.args);
 

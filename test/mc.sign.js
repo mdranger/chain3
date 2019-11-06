@@ -1,5 +1,5 @@
 var testMethod = require('./helpers/test.method.js');
-var Mc = require('../packages/chain3-mc');
+var Mc = require('../packages/chain3-mc/src');
 
 
 var mc = new Mc();
@@ -10,8 +10,8 @@ var method = 'sign';
 var tests = [{
     args: ['Hello World!$*', '0xeb014f8c8b418db6b45774c326a0e64c78914dc0'],
     formattedArgs: ['0xeb014f8c8b418db6b45774c326a0e64c78914dc0', '0x48656c6c6f20576f726c6421242a'],
-    result: '0x5763ab346198e3e6cc4d53996ccdeca0c941cb6cb70d671d97711c421d3bf7922c77ef244ad40e5262d1721bf9638fb06bab8ed3c43bfaa80d6da0be9bbd33dc1b',
-    formattedResult: '0x5763ab346198e3e6cc4d53996ccdeca0c941cb6cb70d671d97711c421d3bf7922c77ef244ad40e5262d1721bf9638fb06bab8ed3c43bfaa80d6da0be9bbd33dc1b',
+    result:'0xa6fbdf9da409497390e2cc14d3baa898b1a5cc86f9bbe39499119cc62aa6eb287bfa432d9efe01162bd73cc9b109426ca21ae071c3868cb6c449fa0cc71777ae1b',
+    formattedResult: '0xa6fbdf9da409497390e2cc14d3baa898b1a5cc86f9bbe39499119cc62aa6eb287bfa432d9efe01162bd73cc9b109426ca21ae071c3868cb6c449fa0cc71777ae1b',
     call: 'mc_'+ method 
 },{
     useLocalWallet: function (chain3) {
@@ -19,14 +19,14 @@ var tests = [{
     },
     args: ['Hello World!$*', '0xeb014f8c8b418db6b45774c326a0e64c78914dc0'],
     formattedArgs: ['0xeb014f8c8b418db6b45774c326a0e64c78914dc0', '0x48656c6c6f20576f726c6421242a'],
-    result: '0x5763ab346198e3e6cc4d53996ccdeca0c941cb6cb70d671d97711c421d3bf7922c77ef244ad40e5262d1721bf9638fb06bab8ed3c43bfaa80d6da0be9bbd33dc1b',
-    formattedResult: '0x5763ab346198e3e6cc4d53996ccdeca0c941cb6cb70d671d97711c421d3bf7922c77ef244ad40e5262d1721bf9638fb06bab8ed3c43bfaa80d6da0be9bbd33dc1b',
+    result:'0xa6fbdf9da409497390e2cc14d3baa898b1a5cc86f9bbe39499119cc62aa6eb287bfa432d9efe01162bd73cc9b109426ca21ae071c3868cb6c449fa0cc71777ae1b',
+    formattedResult: '0xa6fbdf9da409497390e2cc14d3baa898b1a5cc86f9bbe39499119cc62aa6eb287bfa432d9efe01162bd73cc9b109426ca21ae071c3868cb6c449fa0cc71777ae1b',
     call: null
 },{
     args: ['Hello Wolrd!$*', '0xeb014f8c8b418db6b45774c326a0e64c78914dc0'],
     formattedArgs: ['0xeb014f8c8b418db6b45774c326a0e64c78914dc0', '0x48656c6c6f20576f6c726421242a'],
-    result: '0x680b2c019eb81d5476012ca453a1ac2248dec3d89c2ed20d78177e2e0550b72d702d42c40943f6140b3d2e9fc9981c7fdd428ff93623020969e33b6b406e26851b',
-    formattedResult: '0x680b2c019eb81d5476012ca453a1ac2248dec3d89c2ed20d78177e2e0550b72d702d42c40943f6140b3d2e9fc9981c7fdd428ff93623020969e33b6b406e26851b',
+    result: '0xcba2e6f62848fb4981fa803995501485c493bc3b13ef4cfad69c1edcce454dce7998a17ceeb84e307c73546fddb495b49f45e5736e7af4a3c12287025067c7c01b',
+    formattedResult: '0xcba2e6f62848fb4981fa803995501485c493bc3b13ef4cfad69c1edcce454dce7998a17ceeb84e307c73546fddb495b49f45e5736e7af4a3c12287025067c7c01b',
     call: 'mc_'+ method
 },{
     useLocalWallet: function (chain3) {
@@ -34,8 +34,8 @@ var tests = [{
     },
     args: ['Hello Wolrd!$*', '0xeb014f8c8b418db6b45774c326a0e64c78914dc0'],
     formattedArgs: ['0xeb014f8c8b418db6b45774c326a0e64c78914dc0', '0x48656c6c6f20576f6c726421242a'],
-    result: '0x680b2c019eb81d5476012ca453a1ac2248dec3d89c2ed20d78177e2e0550b72d702d42c40943f6140b3d2e9fc9981c7fdd428ff93623020969e33b6b406e26851b',
-    formattedResult: '0x680b2c019eb81d5476012ca453a1ac2248dec3d89c2ed20d78177e2e0550b72d702d42c40943f6140b3d2e9fc9981c7fdd428ff93623020969e33b6b406e26851b',
+    result: '0xcba2e6f62848fb4981fa803995501485c493bc3b13ef4cfad69c1edcce454dce7998a17ceeb84e307c73546fddb495b49f45e5736e7af4a3c12287025067c7c01b',
+    formattedResult: '0xcba2e6f62848fb4981fa803995501485c493bc3b13ef4cfad69c1edcce454dce7998a17ceeb84e307c73546fddb495b49f45e5736e7af4a3c12287025067c7c01b',
     call: null
 }];
 
