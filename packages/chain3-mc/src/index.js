@@ -34,14 +34,15 @@ var Net = require('web3-net');
 
 var ENS = require('web3-eth-ens');
 var Personal = require('web3-eth-personal');
-var BaseContract = require('web3-eth-contract');
+//var BaseContract = require('web3-eth-contract');     //wang
+var BaseContract = require('../../chain3-mc-contract');
 var Iban = require('web3-eth-iban');
 // var Accounts = require('web3-eth-accounts');
 var abi = require('web3-eth-abi');
 
 var getNetworkType = require('./getNetworkType.js');
 var formatter = helpers.formatters;
-var Accounts = require('../../chain3-mc-accounts/src');
+var Accounts = require('../../chain3-mc-accounts');
 
 
 var blockCall = function (args) {
@@ -194,13 +195,13 @@ var Mc = function Moac() {
         //     call: 'web3_clientVersion'
         // }),
 
-        // new Method({
-        //     name: 'getPastLogs',
-        //     call: 'eth_getLogs',
-        //     params: 1,
-        //     inputFormatter: [formatter.inputLogFormatter],
-        //     outputFormatter: formatter.outputLogFormatter
-        // }),
+         //new Method({
+         //    name: 'getPastLogs',
+         //    call: 'mc_getLogs',
+         //    params: 1,
+         //    inputFormatter: [formatter.inputLogFormatter],
+         //    outputFormatter: formatter.outputLogFormatter
+         //}),
         new Method({
             name: 'getProtocolVersion',
             call: 'mc_protocolVersion',
@@ -224,7 +225,7 @@ var Mc = function Moac() {
         }),
         new Method({
             name: 'isSyncing',
-            call: 'eth_syncing',
+            call: 'mc_syncing',
             params: 0,
             outputFormatter: formatter.outputSyncingFormatter
         }),
@@ -248,7 +249,7 @@ var Mc = function Moac() {
         }),
         new Method({
             name: 'getBalance',
-            call: 'eth_getBalance',
+            call: 'mc_getBalance',
             params: 2,
             inputFormatter: [formatter.inputAddressFormatter, formatter.inputDefaultBlockNumberFormatter],
             outputFormatter: formatter.outputBigNumberFormatter
