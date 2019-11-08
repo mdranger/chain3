@@ -1,8 +1,8 @@
-# chain3-core-method
+# web3-core-method
 
-This is a sub package of [chain3.js][repo]
+This is a sub package of [web3.js][repo]
 
-The Method package used within most [chain3.js][repo] packages.
+The Method package used within most [web3.js][repo] packages.
 Please read the [documentation][docs] for more.
 
 ## Installation
@@ -10,30 +10,30 @@ Please read the [documentation][docs] for more.
 ### Node.js
 
 ```bash
-npm install chain3-core-method
+npm install web3-core-method
 ```
 
 ### In the Browser
 
-Build running the following in the [chain3.js][repo] repository:
+Build running the following in the [web3.js][repo] repository:
 
 ```bash
 npm run-script build-all
 ```
 
-Then include `dist/chain3-core-method.js` in your html file.
-This will expose the `Chain3Method` object on the window object.
+Then include `dist/web3-core-method.js` in your html file.
+This will expose the `Web3Method` object on the window object.
 
 
 ## Usage
 
 ```js
 // in node.js
-var Web3Method = require('chain3-core-method');
+var Web3Method = require('web3-core-method');
 
 var method = new Web3Method({
     name: 'sendTransaction',
-    call: 'mc_sendTransaction',
+    call: 'eth_sendTransaction',
     params: 1,
     inputFormatter: [inputTransactionFormatter]
 });
@@ -43,7 +43,7 @@ myCoolLib.sendTransaction({...}, function(){ ... });
 ```
 
 
-[docs]: https://moac-docs.readthedocs.io/en/latest/moac/Chain3Js.html
-[repo]: https://github.com/mdranger/chain3
+[docs]: http://web3js.readthedocs.io/en/1.0/
+[repo]: https://github.com/ethereum/web3.js
 
 

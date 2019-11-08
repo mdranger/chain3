@@ -50,7 +50,7 @@ var Method = function Method(options) {
 
     this.requestManager = options.requestManager;
 
-    // reference to eth.accounts
+    // reference to mc.accounts
     this.accounts = options.accounts;
 
     this.defaultBlock = options.defaultBlock || 'latest';
@@ -60,7 +60,7 @@ var Method = function Method(options) {
 Method.prototype.setRequestManager = function (requestManager, accounts) {
     this.requestManager = requestManager;
 
-    // reference to eth.accounts
+    // reference to mc.accounts
     if (accounts) {
         this.accounts = accounts;
     }
@@ -222,7 +222,7 @@ Method.prototype._confirmTransaction = function (defer, result, payload) {
         }),
         new Subscriptions({
             name: 'subscribe',
-            type: 'eth',
+            type: 'mc',
             subscriptions: {
                 'newBlockHeaders': {
                     subscriptionName: 'newHeads', // replace subscription with this name

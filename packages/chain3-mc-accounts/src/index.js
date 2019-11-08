@@ -23,8 +23,9 @@
 "use strict";
 
 var _ = require("underscore");
-var core = require('web3-core');
-var Method = require('web3-core-method');
+var core = require('web3-core');   //wang
+//var core = require('../../chain3-core');
+var Method = require('../../chain3-core-method');
 var Promise = require('any-promise');
 // var Account = require("eth-lib/lib/account");
 // var Hash = require("eth-lib/lib/hash");
@@ -55,6 +56,7 @@ var trimLeadingZero = function (hex) {
 };
 
 var makeEven = function (hex) {
+console.log('mc account,makeevent,hex:'+hex);
     if(hex.length % 2 === 1) {
         hex = hex.replace('0x', '0x0');
     }
@@ -249,7 +251,7 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
 //console.log("hash:", Hash.keccak256(rlpEncoded));
             var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
 
-            var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));
+            var rawTx = RLP.decode(rlpEncoded).slice(0, vPos+3).concat(Account.decodeSignature(newsign));    //by wang
 
 //console.log("decodeTx:", rawTx);
 
@@ -263,9 +265,12 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
     // rawTx[vPos + 1] = (makeEven(trimLeadingZero(bufferToHex(newsign.r))));
     // rawTx[vPos + 2] = (makeEven(trimLeadingZero(bufferToHex(newsign.s))));
 
+console.log('accounts,will make event,rawtx in vpos:'+rawTx[vPos-1]);
+    rawTx[vPos-1]  = makeEven(trimLeadingZero(rawTx[vPos-1]));                 //by wang vpos-1
+  console.log('accounts,will make event,vpos+1:'+rawTx[vPos]);  
     rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));
+  console.log('accounts,will make event,vpos+2:'+rawTx[vPos+1]);  
     rawTx[vPos+1]  = makeEven(trimLeadingZero(rawTx[vPos+1]));
-    rawTx[vPos+2]  = makeEven(trimLeadingZero(rawTx[vPos+2]));
 
 // console.log("R", newsign.r," length ",newsign.r.length);
 // console.log("EVEN R", makeEven(bufferToHex(newsign.r)));
