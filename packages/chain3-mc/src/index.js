@@ -32,7 +32,8 @@ var Method = require('../../chain3-core-method');    //wang
 var utils = require('web3-utils');
 var Net = require('web3-net');
 
-var ENS = require('web3-eth-ens');
+
+var ENS = require('../../chain3-mc-ens');
 var Personal = require('web3-eth-personal');
 //var BaseContract = require('web3-eth-contract');     //wang
 var BaseContract = require('../../chain3-mc-contract');
