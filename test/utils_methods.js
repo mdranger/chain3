@@ -1,5 +1,5 @@
 var u = require('./helpers/test.utils.js');
-var utils = require('web3-utils');
+var utils = require('../packages/chain3-utils');
 
 describe('utils', function() {
     describe('methods', function () {
@@ -8,8 +8,8 @@ describe('utils', function() {
         u.methodExists(utils, 'asciiToHex');
         u.methodExists(utils, 'hexToNumberString');
         u.methodExists(utils, 'numberToHex');
-        u.methodExists(utils, 'fromWei');
-        u.methodExists(utils, 'toWei');
+        u.methodExists(utils, 'fromSha');
+        u.methodExists(utils, 'toSha');
         u.methodExists(utils, 'toBN');
         u.methodExists(utils, 'isAddress');
     });

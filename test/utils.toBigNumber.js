@@ -1,5 +1,5 @@
 var chai = require('chai');
-var utils = require('web3-utils');
+var utils = require('../packages/chain3-utils');
 
 var BigNumber = require('bn.js');
 

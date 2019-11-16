@@ -1,5 +1,5 @@
 var assert = require('assert');
-var utils = require('web3-utils');
+var utils = require('../packages/chain3-utils');
 
 describe('lib/utils/utils', function () {
     describe('hexToNumberString', function () {

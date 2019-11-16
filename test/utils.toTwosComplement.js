@@ -3,7 +3,7 @@
  */
 var chai = require('chai');
 var assert = chai.assert;
-var utils = require('web3-utils/');
+var utils = require('../packages/chain3-utils');
 var BigNumber = require('bignumber.js');
 
 var tests = [

@@ -3,7 +3,7 @@ var BN = require('bn.js');
 var BigNumber = require('bignumber.js');
 var chai = require('chai');
 var assert = chai.assert;
-var utils = require('web3-utils');
+var utils = require('../packages/chain3-utils');
 
 // each "values" is one kind of parameter of the same type
 var tests = [{
