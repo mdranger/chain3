@@ -6,16 +6,20 @@ var Chain3 = require('../packages/chain3');
 var chain3 = new Chain3();
 
 var tests = [];
-for (var i = 0; i < 1000; i++) {
+
+// MOAC used the same algorithom as Ethereum in account creation
+// So compare and make sure the two methods generate the same results
+
+for (var i = 0; i < 100; i++) {
     tests.push(i);
 }
 
 
-describe("eth", function () {
+describe("mc", function () {
     describe("accounts", function () {
 
         tests.forEach(function (test, i) {
-            it("create eth.account, and compare to ethers wallet", function() {
+            it("create mc.account, and compare to ethers wallet", function() {
                 var ethAccounts = new Accounts();
 
                 // create account

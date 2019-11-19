@@ -33,7 +33,7 @@ var Web3Method = require('web3-core-method');
 
 var method = new Web3Method({
     name: 'sendTransaction',
-    call: 'eth_sendTransaction',
+    call: 'mc_sendTransaction',
     params: 1,
     inputFormatter: [inputTransactionFormatter]
 });

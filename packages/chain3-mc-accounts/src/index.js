@@ -24,14 +24,9 @@
 
 var _ = require("underscore");
 var core = require('web3-core');   //wang
-//var core = require('../../chain3-core');
+// var core = require('../../chain3-core');
 var Method = require('../../chain3-core-method');
 var Promise = require('any-promise');
-// var Account = require("eth-lib/lib/account");
-// var Hash = require("eth-lib/lib/hash");
-// var RLP = require("eth-lib/lib/rlp");
-// var Nat = require("eth-lib/lib/nat");
-// var Bytes = require("eth-lib/lib/bytes");
 var cryp = (typeof global === 'undefined') ? require('crypto-browserify') : require('crypto');
 var scrypt = require('./scrypt');
 var uuid = require('uuid');
@@ -56,7 +51,6 @@ var trimLeadingZero = function (hex) {
 };
 
 var makeEven = function (hex) {
-console.log('mc account,makeevent,hex:'+hex);
     if(hex.length % 2 === 1) {
         hex = hex.replace('0x', '0x0');
     }
@@ -164,10 +158,22 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
     }
 
     function signed (tx) {
-	//console.log('accounts,tx.gaslimit 1;'+tx.gasLimit);
-	//console.log('accounts,tx.gas 1a;'+tx.gas);
-        if (!tx.gas && !tx.gasLimit) {
-            error = new Error('"gas" is missing');
+
+    // To be compatable with ethereum users, we check and 
+    // make sure the gas can be used as gasLimit
+        if (!tx.gas){
+            //
+            if (!tx.gasLimit){
+                error = new Error('"gas" is missing');
+            }else{
+                if (tx.gasLimit > 0){
+                tx.gas = tx.gasLimit
+            }else{
+                error = new Error('Gas or GasLimit is lower than 0');
+            }
+
+            }
+            
         }
 
         if (tx.nonce  < 0 ||
@@ -212,14 +218,11 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
             // Payload      []byte          `json:"input"    gencodec:"required"`
             // ShardingFlag uint64 `json:"shardingFlag" gencodec:"required"`
             // Via            *common.Address `json:"to"       rlp:"nil"`
-//console.log("mc account,RLP transaction:", transaction);
             // // Signature values
             // V *big.Int `json:"v" gencodec:"required"`
             // R *big.Int `json:"r" gencodec:"required"`
             // S *big.Int `json:"s" gencodec:"required"`
-	    //console.log('accounts,tx.gas 2a;'+tx.gas);
-	    //console.log('mc-account,tx.gasLimit 2:'+tx.gasLimit);
-	    //console.log('mc-account,transaction.gaslimit 3:'+transaction.gasLimit);
+
             var rlpEncoded = RLP.encode([
                 Bytes.fromNat(transaction.nonce),
                       Bytes.fromNat(transaction.systemContract),
@@ -233,7 +236,6 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
                 Bytes.fromNat(transaction.chainId || "0x1"),
                 "0x",
                 "0x"]);
-//console.log("mc accoount, rlpEncoded:", rlpEncoded);
 
             var hash = Hash.keccak256(rlpEncoded);
     // for MOAC, keep 9 fields instead of 6
@@ -248,7 +250,6 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
             return Promise.reject(error);
     }
 
-//console.log("mc account ,hash:", Hash.keccak256(rlpEncoded));
             var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
 
             var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));    //by wang
@@ -265,30 +266,13 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
     // rawTx[vPos + 1] = (makeEven(trimLeadingZero(bufferToHex(newsign.r))));
     // rawTx[vPos + 2] = (makeEven(trimLeadingZero(bufferToHex(newsign.s))));
 
-   
-//console.log('accounts,will make event,rawtx in vpos:'+rawTx[vPos]);
-    rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));                 
-  //console.log('accounts,will make event,vpos+1:'+rawTx[vPos+1]);  
-    rawTx[vPos+1]  = makeEven(trimLeadingZero(rawTx[vPos+1]));
-  //console.log('accounts,will make event,vpos+2:'+rawTx[vPos+2]);  
-    rawTx[vPos+2]  = makeEven(trimLeadingZero(rawTx[vPos+2]));
+    rawTx[vPos-1]  = makeEven(trimLeadingZero(rawTx[vPos-1]));                 //by wang vpos-1
 
-// console.log("R", newsign.r," length ",newsign.r.length);
-// console.log("EVEN R", makeEven(bufferToHex(newsign.r)));
-// console.log("S", newsign.s," length ", newsign.s.length);
-// console.log("EVEN S", makeEven(bufferToHex(newsign.s)));
-// console.log("EVEN S without zeros", makeEven(trimLeadingZero(bufferToHex(newsign.s))));
+    rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));
+
+    rawTx[vPos+1]  = makeEven(trimLeadingZero(rawTx[vPos+1]));
 
     var rawTransaction = RLP.encode(rawTx);
-            // var signature = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
-
-            // var rawTx = RLP.decode(rlpEncoded).slice(0, 6).concat(Account.decodeSignature(signature));
-
-            // rawTx[6] = makeEven(trimLeadingZero(rawTx[6]));
-            // rawTx[7] = makeEven(trimLeadingZero(rawTx[7]));
-            // rawTx[8] = makeEven(trimLeadingZero(rawTx[8]));
-
-            // var rawTransaction = RLP.encode(rawTx);
 
             var values = RLP.decode(rawTransaction);
             result = {

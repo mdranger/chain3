@@ -237,13 +237,6 @@ describe("moac", function () {
                     });
                 });
 
-                // it("recoverTransaction, must also recover old signature from eth-signer", function() {
-                //     var mcAccounts = new Accounts();
-
-                //     var oldSignature = ethjsSigner.sign(test.transaction, test.privateKey);
-
-                //     assert.equal(mcAccounts.recoverTransaction(oldSignature), test.address);
-                // });
             }
         });
     });
