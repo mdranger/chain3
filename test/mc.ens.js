@@ -2,10 +2,10 @@ var chai = require('chai');
 var assert = chai.assert;
 var FakeHttpProvider = require('./helpers/FakeHttpProvider');
 var Chain3 = require('../packages/chain3');
-//var sha3 = require('../packages/chain3-utils').sha3;
-var sha3 = require('web3-utils').sha3;
-//var asciiToHex = require('../packages/web3-utils').asciiToHex;
-var asciiToHex = require('web3-utils').asciiToHex;
+var sha3 = require('../packages/chain3-utils').sha3;
+//var sha3 = require('web3-utils').sha3;
+var asciiToHex = require('../packages/chain3-utils').asciiToHex;
+//var asciiToHex = require('web3-utils').asciiToHex;
 
 describe('ens', function () {
     var provider;

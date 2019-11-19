@@ -35,7 +35,7 @@ var Promise = require('any-promise');
 var cryp = (typeof global === 'undefined') ? require('crypto-browserify') : require('crypto');
 var scrypt = require('./scrypt');
 var uuid = require('uuid');
-var utils = require('web3-utils');
+var utils = require('../../chain3-utils');
 var helpers = require('web3-core-helpers');
 //
 var Account = require("./account");
@@ -212,7 +212,7 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
             // Payload      []byte          `json:"input"    gencodec:"required"`
             // ShardingFlag uint64 `json:"shardingFlag" gencodec:"required"`
             // Via            *common.Address `json:"to"       rlp:"nil"`
-//console.log("RLP transaction:", transaction);
+//console.log("mc account,RLP transaction:", transaction);
             // // Signature values
             // V *big.Int `json:"v" gencodec:"required"`
             // R *big.Int `json:"r" gencodec:"required"`
@@ -233,7 +233,7 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
                 Bytes.fromNat(transaction.chainId || "0x1"),
                 "0x",
                 "0x"]);
-//console.log("rlpEncoded:", rlpEncoded);
+//console.log("mc accoount, rlpEncoded:", rlpEncoded);
 
             var hash = Hash.keccak256(rlpEncoded);
     // for MOAC, keep 9 fields instead of 6
@@ -248,10 +248,10 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
             return Promise.reject(error);
     }
 
-//console.log("hash:", Hash.keccak256(rlpEncoded));
+//console.log("mc account ,hash:", Hash.keccak256(rlpEncoded));
             var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
 
-            var rawTx = RLP.decode(rlpEncoded).slice(0, vPos+3).concat(Account.decodeSignature(newsign));    //by wang
+            var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));    //by wang
 
 //console.log("decodeTx:", rawTx);
 
@@ -265,12 +265,13 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
     // rawTx[vPos + 1] = (makeEven(trimLeadingZero(bufferToHex(newsign.r))));
     // rawTx[vPos + 2] = (makeEven(trimLeadingZero(bufferToHex(newsign.s))));
 
-console.log('accounts,will make event,rawtx in vpos:'+rawTx[vPos-1]);
-    rawTx[vPos-1]  = makeEven(trimLeadingZero(rawTx[vPos-1]));                 //by wang vpos-1
-  console.log('accounts,will make event,vpos+1:'+rawTx[vPos]);  
-    rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));
-  console.log('accounts,will make event,vpos+2:'+rawTx[vPos+1]);  
+   
+//console.log('accounts,will make event,rawtx in vpos:'+rawTx[vPos]);
+    rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));                 
+  //console.log('accounts,will make event,vpos+1:'+rawTx[vPos+1]);  
     rawTx[vPos+1]  = makeEven(trimLeadingZero(rawTx[vPos+1]));
+  //console.log('accounts,will make event,vpos+2:'+rawTx[vPos+2]);  
+    rawTx[vPos+2]  = makeEven(trimLeadingZero(rawTx[vPos+2]));
 
 // console.log("R", newsign.r," length ",newsign.r.length);
 // console.log("EVEN R", makeEven(bufferToHex(newsign.r)));

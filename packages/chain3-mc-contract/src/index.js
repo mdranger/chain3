@@ -19,11 +19,10 @@
  *
  * To initialize a contract use:
  *
- *  var Contract = require('web3-eth-contract');
+ *  var Contract = require('chain3-mc-contract');
  *  Contract.setProvider('ws://localhost:8546');
  *  var contract = new Contract(abi, address, ...);
- *
- * @author Fabian Vogelsteller <fabian@ethereum.org>
+
  * @date 2017
  */
 
@@ -35,7 +34,7 @@ var _ = require('underscore');
 var core = require('web3-core');      //wang
 //var core = require('../../chain3-core');
 var Method = require('../../chain3-core-method');
-var utils = require('web3-utils');
+var utils = require('../../chain3-utils'); 
 var Subscription = require('web3-core-subscriptions').subscription;
 var formatters = require('web3-core-helpers').formatters;
 var errors = require('web3-core-helpers').errors;
