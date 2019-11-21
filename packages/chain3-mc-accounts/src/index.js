@@ -23,8 +23,7 @@
 "use strict";
 
 var _ = require("underscore");
-var core = require('web3-core');   //wang
-// var core = require('../../chain3-core');
+var core = require('web3-core');  
 var Method = require('../../chain3-core-method');
 var Promise = require('any-promise');
 var cryp = (typeof global === 'undefined') ? require('crypto-browserify') : require('crypto');
@@ -223,10 +222,11 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
             // V *big.Int `json:"v" gencodec:"required"`
             // R *big.Int `json:"r" gencodec:"required"`
             // S *big.Int `json:"s" gencodec:"required"`
+console.log("RLP transaction:", transaction);
 
             var rlpEncoded = RLP.encode([
                 Bytes.fromNat(transaction.nonce),
-                      Bytes.fromNat(transaction.systemContract),
+                Bytes.fromNat(transaction.systemContract),
                 Bytes.fromNat(transaction.gasPrice),
                 Bytes.fromNat(transaction.gas),
                 transaction.to.toLowerCase(),
@@ -237,6 +237,7 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
                 Bytes.fromNat(transaction.chainId || "0x1"),
                 "0x",
                 "0x"]);
+console.log("rlpEncoded:", rlpEncoded);
 
             var hash = Hash.keccak256(rlpEncoded);
     // for MOAC, keep 9 fields instead of 6
@@ -253,9 +254,9 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
 
             var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
 
-            var rawTx = RLP.decode(rlpEncoded).slice(0, vPos+3).concat(Account.decodeSignature(newsign));    //by wang
+            var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));    //by wang
 
-//console.log("decodeTx:", rawTx);
+console.log("decodeTx:", rawTx);
 
     //Replace the V field with chainID info
     var newV = newsign.v + 8 + transaction.chainId * 2;
@@ -267,12 +268,14 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
     // rawTx[vPos + 1] = (makeEven(trimLeadingZero(bufferToHex(newsign.r))));
     // rawTx[vPos + 2] = (makeEven(trimLeadingZero(bufferToHex(newsign.s))));
 
-    rawTx[vPos-1]  = makeEven(trimLeadingZero(rawTx[vPos-1]));                 //by wang vpos-1
-
-    rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));
+    // note that the required sig needs certain length,
+    // 
+    rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));                 //by wang vpos-1
 
     rawTx[vPos+1]  = makeEven(trimLeadingZero(rawTx[vPos+1]));
 
+    rawTx[vPos+2]  = makeEven(trimLeadingZero(rawTx[vPos+2]));
+console.log("Updated the sign V:", rawTx);
     var rawTransaction = RLP.encode(rawTx);
 
             var values = RLP.decode(rawTransaction);
