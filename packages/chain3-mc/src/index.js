@@ -28,17 +28,15 @@ var _ = require('underscore');
 var core = require('web3-core');
 var helpers = require('web3-core-helpers');
 var Subscriptions = require('web3-core-subscriptions').subscriptions;
-var Method = require('../../chain3-core-method');    //wang
+var Method = require('../../chain3-core-method'); 
 var utils = require('web3-utils');
 var Net = require('web3-net');
 
 
 var ENS = require('../../chain3-mc-ens');
 var Personal = require('web3-eth-personal');
-//var BaseContract = require('web3-eth-contract');     //wang
 var BaseContract = require('../../chain3-mc-contract');
 var Iban = require('web3-eth-iban');
-// var Accounts = require('web3-eth-accounts');
 var abi = require('web3-eth-abi');
 
 var getNetworkType = require('./getNetworkType.js');
@@ -191,10 +189,10 @@ var Mc = function Moac() {
 
     var methods = [
         // Not supported by MOAC
-        // new Method({
-        //     name: 'getNodeInfo',
-        //     call: 'web3_clientVersion'
-        // }),
+         //new Method({
+          //   name: 'getNodeInfo',
+          //   call: 'chain3_clientVersion'
+         //}),
 
          //new Method({
          //    name: 'getPastLogs',

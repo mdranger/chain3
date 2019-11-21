@@ -20,10 +20,10 @@ describe("mc", function () {
 
         tests.forEach(function (test, i) {
             it("create mc.account, and compare to ethers wallet", function() {
-                var ethAccounts = new Accounts();
+                var mcAccounts = new Accounts();
 
                 // create account
-                var acc = ethAccounts.create();
+                var acc = mcAccounts.create();
 
                 // create ethers wallet
                 var ethWall = new ethers.Wallet(acc.privateKey);

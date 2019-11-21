@@ -24,12 +24,13 @@
 
 var _ = require("underscore");
 var core = require('web3-core');   //wang
-// var core = require('../../chain3-core');
+//var core = require('../../chain3-core');
 var Method = require('../../chain3-core-method');
 var Promise = require('any-promise');
 var cryp = (typeof global === 'undefined') ? require('crypto-browserify') : require('crypto');
 var scrypt = require('./scrypt');
 var uuid = require('uuid');
+
 var utils = require('../../chain3-utils');
 var helpers = require('web3-core-helpers');
 //
@@ -218,6 +219,7 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
             // Payload      []byte          `json:"input"    gencodec:"required"`
             // ShardingFlag uint64 `json:"shardingFlag" gencodec:"required"`
             // Via            *common.Address `json:"to"       rlp:"nil"`
+
             // // Signature values
             // V *big.Int `json:"v" gencodec:"required"`
             // R *big.Int `json:"r" gencodec:"required"`
@@ -266,11 +268,11 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
     // rawTx[vPos + 1] = (makeEven(trimLeadingZero(bufferToHex(newsign.r))));
     // rawTx[vPos + 2] = (makeEven(trimLeadingZero(bufferToHex(newsign.s))));
 
-    rawTx[vPos-1]  = makeEven(trimLeadingZero(rawTx[vPos-1]));                 //by wang vpos-1
 
     rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));
 
     rawTx[vPos+1]  = makeEven(trimLeadingZero(rawTx[vPos+1]));
+    rawTx[vPos+2]  = makeEven(trimLeadingZero(rawTx[vPos+2]));
 
     var rawTransaction = RLP.encode(rawTx);
 
