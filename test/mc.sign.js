@@ -1,5 +1,5 @@
 var testMethod = require('./helpers/test.method.js');
-var Mc = require('../packages/chain3-mc/src');
+var Mc = require('../packages/chain3-mc');
 
 
 var mc = new Mc();
