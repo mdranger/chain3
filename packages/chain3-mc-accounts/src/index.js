@@ -317,10 +317,10 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
 /* jshint ignore:start */
 Accounts.prototype.recoverTransaction = function recoverTransaction(rawTx) {
     var values = RLP.decode(rawTx);
-    var signature = Account.encodeSignature(values.slice(6,9));
-    var recovery = Bytes.toNumber(values[6]);
+    var signature = Account.encodeSignature(values.slice(9,12));
+    var recovery = Bytes.toNumber(values[9]);
     var extraData = recovery < 35 ? [] : [Bytes.fromNumber((recovery - 35) >> 1), "0x", "0x"];
-    var signingData = values.slice(0,6).concat(extraData);
+    var signingData = values.slice(0,9).concat(extraData);
     var signingDataHex = RLP.encode(signingData);
     return Account.recover(Hash.keccak256(signingDataHex), signature);
 };
