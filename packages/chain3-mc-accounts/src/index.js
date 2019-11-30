@@ -232,7 +232,7 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
                 Bytes.fromNat(transaction.gas),
                 transaction.to.toLowerCase(),
                 Bytes.fromNat(transaction.value),
-                transaction.data,
+                Bytes.fromNat(transaction.data),
                 Bytes.fromNat(transaction.shardingFlag),
                 transaction.via.toLowerCase(),
                 Bytes.fromNat(transaction.chainId || "0x1"),
@@ -254,7 +254,7 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
 
             var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
 
-            var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));    //by wang
+            var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));   
 
 //console.log("decodeTx:", rawTx);
 
