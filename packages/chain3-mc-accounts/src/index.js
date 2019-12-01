@@ -23,13 +23,14 @@
 "use strict";
 
 var _ = require("underscore");
-var core = require('web3-core');  
+var core = require('web3-core'); 
 var Method = require('../../chain3-core-method');
 var Promise = require('any-promise');
 var cryp = (typeof global === 'undefined') ? require('crypto-browserify') : require('crypto');
 var scrypt = require('./scrypt');
 var uuid = require('uuid');
-var utils = require('web3-utils');
+
+var utils = require('../../chain3-utils');
 var helpers = require('web3-core-helpers');
 //
 var Account = require("./account");
@@ -194,9 +195,13 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
         }
 
         try {
-            // note the 
-            // tx = helpers.formatters.inputCallFormatter(tx);
-
+            // note the MOAC tx object is different from Ethereum tx object
+            // with extra fields
+            // console.log("==========================================");
+            // console.log("Before:", tx);
+            tx = helpers.formatters.inputCallFormatter(tx);
+// console.log("before:", tx);
+// console.log("==========================================");
             var transaction = tx;
             transaction.to = tx.to || '0x';
             transaction.data = tx.data || '0x';
@@ -205,7 +210,7 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
             transaction.shardingFlag = utils.numberToHex(tx.shardingFlag);
             transaction.systemContract = '0x0'; //System contract flag, always = 0
             transaction.via = tx.via || '0x'; //vnode subchain address
-
+// console.log("After:", transaction);
             //Encode the TX for signature
             //   type txdata struct {
             // AccountNonce uint64          `json:"nonce"    gencodec:"required"`
@@ -222,7 +227,6 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
             // V *big.Int `json:"v" gencodec:"required"`
             // R *big.Int `json:"r" gencodec:"required"`
             // S *big.Int `json:"s" gencodec:"required"`
-console.log("RLP transaction:", transaction);
 
             var rlpEncoded = RLP.encode([
                 Bytes.fromNat(transaction.nonce),
@@ -231,18 +235,18 @@ console.log("RLP transaction:", transaction);
                 Bytes.fromNat(transaction.gas),
                 transaction.to.toLowerCase(),
                 Bytes.fromNat(transaction.value),
-                transaction.data,
+                Bytes.fromNat(transaction.data),
                 Bytes.fromNat(transaction.shardingFlag),
                 transaction.via.toLowerCase(),
-                Bytes.fromNat(transaction.chainId || "0x1"),
+                Bytes.fromNat(transaction.chainId || "0x1"), 
                 "0x",
                 "0x"]);
-console.log("rlpEncoded:", rlpEncoded);
 
             var hash = Hash.keccak256(rlpEncoded);
     // for MOAC, keep 9 fields instead of 6
     var vPos = 9;
-        //Sign the hash with the private key to produce the
+
+    //Sign the hash with the private key to produce the
     //V, R, S
     // var newsign = ecsign(hash, stripHexPrefix(privateKey));
     // var rawTx = RLP.decode(rlpEncoded).slice(0, vPos + 3);
@@ -252,12 +256,12 @@ console.log("rlpEncoded:", rlpEncoded);
             return Promise.reject(error);
     }
 
-            var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
-
-            var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));    //by wang
-
-console.log("decodeTx:", rawTx);
-
+    var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
+// console.log("direct decode:", RLP.decode(rlpEncoded));
+// console.log("==========================================");
+    var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));    
+// console.log("After RLP.DECODE:", rawTx);
+// console.log("==========================================");
     //Replace the V field with chainID info
     var newV = newsign.v + 8 + transaction.chainId * 2;
 
@@ -267,15 +271,14 @@ console.log("decodeTx:", rawTx);
     // rawTx[vPos] = (makeEven(trimLeadingZero(bufferToHex(newV))));
     // rawTx[vPos + 1] = (makeEven(trimLeadingZero(bufferToHex(newsign.r))));
     // rawTx[vPos + 2] = (makeEven(trimLeadingZero(bufferToHex(newsign.s))));
-
     // note that the required sig needs certain length,
     // 
-    rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));                 //by wang vpos-1
-
+    console.log("rawTx[vPos+1]:", rawTx[vPos+1]);
+    rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));                 
     rawTx[vPos+1]  = makeEven(trimLeadingZero(rawTx[vPos+1]));
-
     rawTx[vPos+2]  = makeEven(trimLeadingZero(rawTx[vPos+2]));
-console.log("Updated the sign V:", rawTx);
+
+
     var rawTransaction = RLP.encode(rawTx);
 
             var values = RLP.decode(rawTransaction);
@@ -298,6 +301,7 @@ console.log("Updated the sign V:", rawTx);
 
     // Resolve immediately if nonce, chainId and price are provided
     if (tx.nonce !== undefined && tx.chainId !== undefined && tx.gasPrice !== undefined) {
+        console.log("Sign tx:", tx);
         return Promise.resolve(signed(tx));
     }
 
@@ -319,10 +323,13 @@ console.log("Updated the sign V:", rawTx);
 /* jshint ignore:start */
 Accounts.prototype.recoverTransaction = function recoverTransaction(rawTx) {
     var values = RLP.decode(rawTx);
-    var signature = Account.encodeSignature(values.slice(6,9));
-    var recovery = Bytes.toNumber(values[6]);
+    //Note the rawTx in MOAC has three more fields than Ethereum
+    // for MOAC, keep 9 fields instead of 6
+    var vPos = 9;
+    var signature = Account.encodeSignature(values.slice(vPos,vPos+3));
+    var recovery = Bytes.toNumber(values[vPos]);
     var extraData = recovery < 35 ? [] : [Bytes.fromNumber((recovery - 35) >> 1), "0x", "0x"];
-    var signingData = values.slice(0,6).concat(extraData);
+    var signingData = values.slice(0,vPos).concat(extraData);
     var signingDataHex = RLP.encode(signingData);
     return Account.recover(Hash.keccak256(signingDataHex), signature);
 };

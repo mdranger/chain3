@@ -12,12 +12,10 @@
     GNU Lesser General Public License for more details.
 
     You should have received a copy of the GNU Lesser General Public License
-    along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
+    along with chain3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
  * @file index.js
- * @author Fabian Vogelsteller <fabian@ethereum.org>
- * @author Marek Kotewicz <marek@parity.io>
  * @date 2017
  */
 
@@ -26,7 +24,7 @@
 var _ = require('underscore');
 var errors = require('web3-core-helpers').errors;
 var formatters = require('web3-core-helpers').formatters;
-var utils = require('web3-utils');
+var utils = require('../../chain3-utils');
 var promiEvent = require('web3-core-promievent');
 var Subscriptions = require('web3-core-subscriptions').subscriptions;
 

@@ -1,7 +1,7 @@
 /*
-    This file is part of web3.js.
+    This file is part of chain3.js.
 
-    web3.js is free software: you can redistribute it and/or modify
+    chain3.js is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
@@ -12,20 +12,10 @@
     GNU Lesser General Public License for more details.
 
     You should have received a copy of the GNU Lesser General Public License
-    along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
+    along with chain3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
 /**
- * @file index.js
- * @authors:
- *   Fabian Vogelsteller <fabian@ethereum.org>
- *   Gav Wood <gav@parity.io>
- *   Jeffrey Wilcke <jeffrey.wilcke@ethereum.org>
- *   Marek Kotewicz <marek@parity.io>
- *   Marian Oancea <marian@ethereum.org>
- * @date 2017
- * Update to chain3 packages
- * chain3-vnode
- * chain3-scs
+ 
  */
 
 "use strict";
@@ -39,16 +29,19 @@ var Personal = require('web3-eth-personal');
 // var Shh = require('web3-shh');
 // var Bzz = require('web3-bzz');
 var utils = require('web3-utils');
-var Mc = require('../../chain3-mc/src')
+var Mc = require('../../chain3-mc')
 
 var Chain3 = function Chain3() {
     var _this = this;
 
     // sets _requestmanager etc
+    //console.log("chain3 will package init");
     core.packageInit(this, arguments);
 
     this.version = version;
     this.utils = utils;
+
+	//console.log("chain3 will new mc");
 
     this.mc = new Mc(this);
     // this.shh = new Shh(this);
@@ -58,6 +51,7 @@ var Chain3 = function Chain3() {
     var setProvider = this.setProvider;
     this.setProvider = function (provider, net) {
         setProvider.apply(_this, arguments);
+		//console.log("chain3 will set provider");
 
         this.mc.setProvider(provider, net);
         // this.shh.setProvider(provider, net);
@@ -74,7 +68,7 @@ Chain3.modules = {
     Net: Net,
     Personal: Personal
 };
-
+//console.log("chain3 will add provider");
 core.addProviders(Chain3);
 
 module.exports = Chain3;

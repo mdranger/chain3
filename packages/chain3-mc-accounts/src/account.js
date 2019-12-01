@@ -128,8 +128,16 @@ var recover = function recover(hash, signature) {
     r: vals[1].slice(2),
     s: vals[2].slice(2)
   };
-  
-  var ecPublicKey = secp256k1.recoverPubKey(new Buffer(hash.slice(2), "hex"), vrs, vrs.v < 2 ? vrs.v : 1 - vrs.v % 2); // because odd vals mean v=0... sadly that means v=0 means v=1... I hate that
+
+
+  //Catch the error if cannot recover the pubKey
+  try {
+
+    var ecPublicKey = secp256k1.recoverPubKey(new Buffer(hash.slice(2), "hex"), vrs, vrs.v < 2 ? vrs.v : 1 - vrs.v % 2); // because odd vals mean v=0... sadly that means v=0 means v=1... I hate that
+  } catch(err) {
+    console.log("Cannot recover the PubKey in recover function with error:", err);
+    return null;
+  }
 
   var publicKey = "0x" + ecPublicKey.encode("hex", false).slice(2);
   var publicHash = keccak256(publicKey);
