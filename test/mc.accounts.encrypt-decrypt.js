@@ -144,7 +144,7 @@ describe("mc", function () {
                 assert.deepEqual(encrypt, ethWallEncrypt);
             });
 
-            it("encrypt eth.account, and decrypt with ethers wallet", async () => {
+            it("encrypt mc.account, and decrypt with ethers wallet", async () => {
                 var ethAccounts = new Accounts();
 
                 // create account
@@ -159,7 +159,7 @@ describe("mc", function () {
                 assert.equal(acc.privateKey, ethWall.privateKey);
             });
 
-            it("encrypt ethers wallet, and decrypt with eth.account", async () => {
+            it("encrypt ethers wallet, and decrypt with mc.account", async () => {
                 var ethAccounts = new Accounts();
 
                 // create ethers wallet
@@ -174,7 +174,7 @@ describe("mc", function () {
                 assert.equal(acc.privateKey, ethWall.privateKey);
             });
 
-            it("decrypt static signature using ethers wallet and eth.account and compare", async () => {
+            it("decrypt static signature using ethers wallet and mc.account and compare", async () => {
                 var ethAccounts = new Accounts();
 
                 var encrypt = { version: 3,
