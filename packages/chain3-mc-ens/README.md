@@ -1,8 +1,8 @@
-# web3-eth-ens
+# chain3-mc-ens
 
 This is a sub package of [web3.js][repo]
 
-This is the contract package to be used in the `web3-eth` package.
+This is the contract package to be used in the `chain3-mc` package.
 Please read the [documentation][docs] for more.
 
 ## Installation
@@ -10,7 +10,7 @@ Please read the [documentation][docs] for more.
 ### Node.js
 
 ```bash
-npm install web3-eth-ens
+npm install chain3-mc-ens
 ```
 
 ### In the Browser
@@ -21,7 +21,7 @@ Build running the following in the [web3.js][repo] repository:
 npm run-script build-all
 ```
 
-Then include `dist/web3-eth-ens.js` and `dist/web3-eth.js` in your html file.
+Then include `dist/chain3-mc-ens.js` and `dist/chain3-mc.js` in your html file.
 This will expose the `EthEns` object on the window object.
 
 ## Usage
@@ -37,7 +37,7 @@ This will expose the `EthEns` object on the window object.
 
 
 
-[docs]: http://web3js.readthedocs.io/en/1.0/
-[repo]: https://github.com/ethereum/web3.js
+[docs]: https://moacdocs-chn.readthedocs.io/zh_CN/latest/moac/js/index.html
+[repo]: https://github.com/MOACChain/chain3/tree/1.x
 
 

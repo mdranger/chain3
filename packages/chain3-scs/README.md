@@ -1,8 +1,8 @@
-# chain3-mc
+# chain3-scs
 
 This is a sub package of [chain3.js][repo]
 
-This is the Eth package to be used [chain3.js][repo].
+This is the MOAC package to be used [chain3.js][repo].
 Please read the [documentation][docs] for more.
 
 ## Installation
@@ -10,28 +10,28 @@ Please read the [documentation][docs] for more.
 ### Node.js
 
 ```bash
-npm install chain3-mc
+npm install chain3-scs
 ```
 
 ### In the Browser
 
-Build running the following in the [web3.js][repo] repository:
+Build running the following in the [chain3.js][repo] repository:
 
 ```bash
 npm run-script build-all
 ```
 
-Then include `dist/chain3-mc.js` in your html file.
-This will expose the `Web3Eth` object on the window object.
+Then include `dist/chain3-scs.js` in your html file.
+This will expose the `Chain3SCS` object on the window object.
 
 
 ## Usage
 
 ```js
 // in node.js
-var Chain3Mc = require('chain3-mc');
+var Chain3SCS = require('chain3-scs');
 
-var mc = new Chain3Mc('ws://localhost:8546');
+var scs = new Chain3SCS('http://localhost:8548');
 ```
 
 

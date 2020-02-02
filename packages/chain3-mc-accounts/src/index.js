@@ -484,7 +484,7 @@ Accounts.prototype.encrypt = function (privateKey, password, options) {
 
 
 // Note: this is trying to follow closely the specs on
-// http://web3js.readthedocs.io/en/1.0/web3-eth-accounts.html
+// http://web3js.readthedocs.io/en/1.0/chain3-mc-accounts.html
 
 function Wallet(accounts) {
     this._accounts = accounts;

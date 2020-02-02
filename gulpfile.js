@@ -41,12 +41,12 @@ gulp.task('version', function(){
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('bower', ['version'], function(cb){
-    bower.commands.install().on('end', function (installed){
-        console.log(installed);
-        cb();
-    });
-});
+// gulp.task('bower', ['version'], function(cb){
+//     bower.commands.install().on('end', function (installed){
+//         console.log(installed);
+//         cb();
+//     });
+// });
 
 gulp.task('lint', [], function(){
     return gulp.src(['./*.js', './lib/*.js'])

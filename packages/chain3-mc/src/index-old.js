@@ -32,11 +32,11 @@ var Method = require('web3-core-method');
 var utils = require('web3-utils');
 var Net = require('web3-net');
 
-var ENS = require('web3-eth-ens');
+var ENS = require('chain3-mc-ens');
 var Personal = require('web3-eth-personal');
-var BaseContract = require('web3-eth-contract');
+var BaseContract = require('chain3-mc-contract');
 var Iban = require('web3-eth-iban');
-// var Accounts = require('web3-eth-accounts');
+// var Accounts = require('chain3-mc-accounts');
 var abi = require('web3-eth-abi');
 
 var getNetworkType = require('./getNetworkType.js');
@@ -145,7 +145,7 @@ var Mc = function Moac() {
     // create a proxy Contract type for this instance, as a Contract's provider
     // is stored as a class member rather than an instance variable. If we do
     // not create this proxy type, changing the provider in one instance of
-    // web3-eth would subsequently change the provider for _all_ contract
+    // chain3-mc would subsequently change the provider for _all_ contract
     // instances!
     var self = this;
     var Contract = function Contract() {
@@ -167,7 +167,7 @@ var Mc = function Moac() {
         BaseContract.setProvider.apply(this, arguments);
     };
 
-    // make our proxy Contract inherit from web3-eth-contract so that it has all
+    // make our proxy Contract inherit from chain3-mc-contract so that it has all
     // the right functionality and so that instanceof and friends work properly
     Contract.prototype = Object.create(BaseContract.prototype);
     Contract.prototype.constructor = Contract;
@@ -401,7 +401,7 @@ var Mc = function Moac() {
                     params: 1,
                     inputFormatter: [formatter.inputLogFormatter],
                     outputFormatter: formatter.outputLogFormatter,
-                    // DUBLICATE, also in web3-eth-contract
+                    // DUBLICATE, also in chain3-mc-contract
                     subscriptionHandler: function (output) {
                         if(output.removed) {
                             this.emit('changed', output);

@@ -1,37 +1,38 @@
-# web3-eth-accounts
+# chain3-mc-accounts
 
-This is a sub package of [web3.js][repo]
+This is a sub package of [chain3.js][repo]
 
-This is the accounts package to be used in the `web3-eth` package.
+This is the accounts package to be used in the `chain3-mc` package.
 Please read the [documentation][docs] for more.
+Please not that MOAC used the same account structure as ETHEREUM project so the account generated in ETHEREUM WEB3 can be used in MOAC.
 
 ## Installation
 
 ### Node.js
 
 ```bash
-npm install web3-eth-accounts
+npm install chain3-mc-accounts
 ```
 
 ### In the Browser
 
-Build running the following in the [web3.js][repo] repository:
+Build running the following in the [chain3.js][repo] repository:
 
 ```bash
 npm run-script build-all
 ```
 
-Then include `dist/web3-eth-accounts.js` in your html file.
-This will expose the `Web3EthAccounts` object on the window object.
+Then include `dist/chain3-mc-accounts.js` in your html file.
+This will expose the `Chain3McAccounts` object on the window object.
 
 
 ## Usage
 
 ```js
 // in node.js
-var Web3EthAccounts = require('web3-eth-accounts');
+var Chain3McAccounts = require('chain3-mc-accounts');
 
-var account = new Web3EthAccounts('ws://localhost:8546');
+var account = new Chain3McAccounts('ws://localhost:8546');
 account.create();
 > {
   address: '0x2c7536E3605D9C16a7a3D7b1898e529396a65c23',
@@ -42,8 +43,7 @@ account.create();
 }
 ```
 
-
-[docs]: http://web3js.readthedocs.io/en/1.0/
-[repo]: https://github.com/ethereum/web3.js
+[docs]: https://moacdocs-chn.readthedocs.io/zh_CN/latest/moac/js/index.html
+[repo]: https://github.com/MOACChain/chain3/tree/1.x
 
 

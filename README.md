@@ -1,14 +1,39 @@
-# MOAC JavaScript API version 0.1.2.
-Modified from ethereum:web3.js 0.20.0
+# MOAC JavaScript API version 1.0.1.
+This documentation is under construction and documents the 1.0.x alpha versions of chain3.js. 
+The current stable version of chain3.js is 0.1.22 and should get preferred for production use cases.
 
+
+To use the MOAC chain3 lib in Node.Js program,.
+
+```js
+
+var Chain3 = require('../packages/chain3');
+
+```
+
+or 
+
+```js
+import Chain3 from 'chain3';
+
+new Chain3(...);
+```
+
+This is the MOAC compatible JavaScript API which implements the Generic JSON RPC spec as described in the Chain3.md.
+
+Some of the methods require running a local MOAC node to use this library.
+
+Usage
+```js
 var Chain3 = require('chain3');
 
 var chain3 = new Chain3();
+```
+
 
 This is the MOAC compatible JavaScript API which implements the Generic JSON RPC spec as described in the Chain3.md. It's available on npm as a node module, for bower and component as an embeddable js and as a meteor.js package.
 
-
-Some of the methods require running a local MOAC node to use this library.
+Some of the methods require running a local MOAC VNODE or SCS client software to use this library.
 
 
 ## Installation
@@ -98,7 +123,7 @@ npm test
 Test a singe function.
 
 ```bash
-mocha test/chain3.mc.coinbase.js 
+mocha test/mc.getCoinbase.js
 ```
 
 ## Some extras

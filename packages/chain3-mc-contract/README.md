@@ -1,8 +1,8 @@
-# web3-eth-contract
+# chain3-mc-contract
 
-This is a sub package of [web3.js][repo]
+This is a sub package of [chain3.js][repo]
 
-This is the contract package to be used in the `web3-eth` package.
+This is the contract package to be used in the `chain3-mc` package.
 Please read the [documentation][docs] for more.
 
 ## Installation
@@ -10,7 +10,7 @@ Please read the [documentation][docs] for more.
 ### Node.js
 
 ```bash
-npm install web3-eth-contract
+npm install chain3-mc-contract
 ```
 
 ### In the Browser
@@ -21,20 +21,20 @@ Build running the following in the [web3.js][repo] repository:
 npm run-script build-all
 ```
 
-Then include `dist/web3-eth-contract.js` in your html file.
-This will expose the `Web3EthContract` object on the window object.
+Then include `dist/chain3-mc-contract.js` in your html file.
+This will expose the `Chain3McContract` object on the window object.
 
 
 ## Usage
 
 ```js
 // in node.js
-var Web3EthContract = require('web3-eth-contract');
+var Chain3McContract = require('chain3-mc-contract');
 
 // set provider for all later instances to use
-Web3EthContract.setProvider('ws://localhost:8546');
+Chain3McContract.setProvider('ws://localhost:8546');
 
-var contract = new Web3EthContract(jsonInterface, address);
+var contract = new Chain3McContract(jsonInterface, address);
 contract.methods.somFunc().send({from: ....})
 .on('receipt', function(){
     ...
@@ -42,7 +42,7 @@ contract.methods.somFunc().send({from: ....})
 ```
 
 
-[docs]: http://web3js.readthedocs.io/en/1.0/
-[repo]: https://github.com/ethereum/web3.js
+[docs]: https://moacdocs-chn.readthedocs.io/zh_CN/latest/moac/js/index.html
+[repo]: https://github.com/MOACChain/chain3/tree/1.x
 
 

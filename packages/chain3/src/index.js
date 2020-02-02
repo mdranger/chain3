@@ -6,7 +6,7 @@
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    web3.js is distributed in the hope that it will be useful,
+    chain3.js is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU Lesser General Public License for more details.
@@ -14,9 +14,9 @@
     You should have received a copy of the GNU Lesser General Public License
     along with chain3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
-/**
- 
- */
+/*
+  Chain3 use chain3.js 1.0 packages to be compatible with Ethereum developers.
+*/
 
 "use strict";
 
@@ -25,12 +25,14 @@ var version = require('../package.json').version;
 var core = require('web3-core');
 var Net = require('web3-net');
 var Personal = require('web3-eth-personal');
-// var Eth = require('web3-eth');
 // var Shh = require('web3-shh');
 // var Bzz = require('web3-bzz');
 var utils = require('web3-utils');
 var Mc = require('../../chain3-mc')
+var Scs = require('../../chain3-scs')
 
+// Constructor of the Chain3 object
+// add scs, appchain(later)
 var Chain3 = function Chain3() {
     var _this = this;
 
@@ -41,11 +43,8 @@ var Chain3 = function Chain3() {
     this.version = version;
     this.utils = utils;
 
-	//console.log("chain3 will new mc");
-
     this.mc = new Mc(this);
-    // this.shh = new Shh(this);
-    // this.bzz = new Bzz(this);
+    this.scs = new Scs(this);
 
     // overwrite package setProvider
     var setProvider = this.setProvider;
@@ -54,6 +53,7 @@ var Chain3 = function Chain3() {
 		//console.log("chain3 will set provider");
 
         this.mc.setProvider(provider, net);
+        this.scs.setProvider(provider2, net);
         // this.shh.setProvider(provider, net);
         // this.bzz.setProvider(provider);
 

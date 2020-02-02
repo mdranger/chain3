@@ -15,7 +15,7 @@ npm install chain3-utils
 
 ### In the Browser
 
-Build running the following in the [web3.js][repo] repository:
+Build running the following in the [chain3.js][repo] repository:
 
 ```bash
 npm run-script build-all
@@ -38,8 +38,8 @@ console.log(Chain3Utils);
     ...
 }
 ```
-[docs]: http://web3js.readthedocs.io/en/1.0/
-[repo]: https://github.com/ethereum/web3.js
+[docs]: https://moacdocs-chn.readthedocs.io/zh_CN/latest/moac/js/index.html
+[repo]: https://github.com/MOACChain/chain3/tree/1.x
 
 
 
