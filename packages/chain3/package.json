@@ -16,6 +16,8 @@
         "JavaScript",
         "API"
     ],    "dependencies": {
+        "chain3-mc": "1.0.0",
+        "chain3-scs": "1.0.0",
         "web3-core": "1.2.1",
         "web3-eth-personal": "1.2.1",
         "web3-net": "1.2.1",

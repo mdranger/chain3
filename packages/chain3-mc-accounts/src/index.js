@@ -257,23 +257,16 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
     }
 
     var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
-// console.log("direct decode:", RLP.decode(rlpEncoded));
-// console.log("==========================================");
+
     var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));    
-// console.log("After RLP.DECODE:", rawTx);
-// console.log("==========================================");
+
     //Replace the V field with chainID info
     var newV = newsign.v + 8 + transaction.chainId * 2;
 
-    // // dont allow uneven r,s,v values
-    // // there could be 0 when convert the buffer to HEX.
-    // // In the RLP encoding/decoding rules, 
-    // rawTx[vPos] = (makeEven(trimLeadingZero(bufferToHex(newV))));
-    // rawTx[vPos + 1] = (makeEven(trimLeadingZero(bufferToHex(newsign.r))));
-    // rawTx[vPos + 2] = (makeEven(trimLeadingZero(bufferToHex(newsign.s))));
+    // dont allow uneven r,s,v values
+    // there could be 0 when convert the buffer to HEX.
+    // In the RLP encoding/decoding rules, 
     // note that the required sig needs certain length,
-    // 
-    console.log("rawTx[vPos+1]:", rawTx[vPos+1]);
     rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));                 
     rawTx[vPos+1]  = makeEven(trimLeadingZero(rawTx[vPos+1]));
     rawTx[vPos+2]  = makeEven(trimLeadingZero(rawTx[vPos+2]));

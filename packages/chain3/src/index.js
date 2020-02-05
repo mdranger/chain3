@@ -25,11 +25,10 @@ var version = require('../package.json').version;
 var core = require('web3-core');
 var Net = require('web3-net');
 var Personal = require('web3-eth-personal');
-// var Shh = require('web3-shh');
-// var Bzz = require('web3-bzz');
 var utils = require('web3-utils');
-var Mc = require('../../chain3-mc')
-var Scs = require('../../chain3-scs')
+var Mc = require('../../chain3-mc');
+// var Mc = require('chain3-mc');
+var Scs = require('../../chain3-scs');
 
 // Constructor of the Chain3 object
 // add scs, appchain(later)
@@ -53,9 +52,17 @@ var Chain3 = function Chain3() {
 		//console.log("chain3 will set provider");
 
         this.mc.setProvider(provider, net);
-        this.scs.setProvider(provider2, net);
-        // this.shh.setProvider(provider, net);
-        // this.bzz.setProvider(provider);
+
+        return true;
+    };
+
+    // For AppChain usage
+    var setScsProvider = this.setScsProvider;
+    this.setScsProvider = function (provider, net) {
+        setScsProvider.apply(_this, arguments);
+        //console.log("chain3 will set provider");
+
+        this.scs.setProvider(provider, net);
 
         return true;
     };
@@ -65,10 +72,13 @@ Chain3.version = version;
 Chain3.utils = utils;
 Chain3.modules = {
     Mc: Mc,
+    Scs: Scs,
     Net: Net,
     Personal: Personal
 };
 //console.log("chain3 will add provider");
+// Notice this only add VNODE providers, 
+// SCS provider only in the scs obj
 core.addProviders(Chain3);
 
 module.exports = Chain3;

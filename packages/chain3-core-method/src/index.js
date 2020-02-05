@@ -55,6 +55,7 @@ var Method = function Method(options) {
     this.defaultAccount = options.defaultAccount || null;
 };
 
+// This is only for the 
 Method.prototype.setRequestManager = function (requestManager, accounts) {
     this.requestManager = requestManager;
 

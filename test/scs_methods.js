@@ -22,8 +22,6 @@ describe('scs', function() {
         u.methodExists(scs, 'getSCSId');        
         u.methodExists(scs, 'getExchangeByAddress');
         u.methodExists(scs, 'getExchangeInfo');        
-        u.methodExists(scs, 'getTransactionByNonce');
-        u.methodExists(scs, 'getTransactionByHash');
         u.methodExists(scs, 'getReceiptByNonce');
         u.methodExists(scs, 'getReceiptByHash');
         u.methodExists(scs, 'getTxpool');

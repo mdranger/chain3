@@ -227,6 +227,24 @@ var Scs = function SCSServer() {
           //   call: 'chain3_clientVersion'
          //}),
 
+        new Method({
+            name: 'directCall',
+            call: 'scs_directCall',
+            params: 1,
+            inputFormatter: formatter.inputAddressFormatter
+         }),
+        new Method({
+            name: 'getAppChainInfo',
+            call: 'scs_getAppChainInfo',
+            params: 1,
+            inputFormatter: formatter.inputAddressFormatter
+         }),
+        new Method({
+            name: 'getDappState',
+            call: 'scs_getDappState',
+            params: 1,
+            inputFormatter: formatter.inputAddressFormatter
+         }),
          new Method({
             name: 'getPastLogs',
             call: 'scs_getLogs',
@@ -277,9 +295,16 @@ var Scs = function SCSServer() {
         new Method({
             name: 'getBlockNumber',
             call: 'scs_blockNumber',
-            params: 2,
-            inputFormatter: [formatter.inputAddressFormatter,formatter.inputAddressFormatter],
+            params: 1,
+            inputFormatter: formatter.inputAddressFormatter,
             outputFormatter: utils.hexToNumber
+        }),
+        new Method({
+            name: 'getNonce',
+            call: 'scs_getNonce',
+            params: 2,
+            inputFormatter: [formatter.inputAddressFormatter, formatter.inputAddressFormatter],
+            outputFormatter: formatter.outputBigNumberFormatter
         }),
         new Method({
             name: 'getBalance',
@@ -323,7 +348,7 @@ var Scs = function SCSServer() {
         // }),
         new Method({
             name: 'getTransaction',
-            call: 'scs_getTransactionByHash',
+            call: getTransaction,
             params: 2,
             inputFormatter: [formatter.inputAddressFormatter, null],
             outputFormatter: formatter.outputTransactionFormatter
@@ -343,11 +368,37 @@ var Scs = function SCSServer() {
             outputFormatter: formatter.outputTransactionFormatter
         }),
         new Method({
-            name: 'getTransactionReceipt',
-            call: 'scs_getTransactionReceipt',
+            name: 'getReceiptByHash',
+            call: 'scs_getReceiptByHash',
             params: 2,
             inputFormatter: [formatter.inputAddressFormatter, null],
             outputFormatter: formatter.outputTransactionReceiptFormatter
+        }),
+        new Method({
+            name: 'getReceiptByNonce',
+            call: 'scs_getReceiptByNonce',
+            params: 2,
+            inputFormatter: [formatter.inputAddressFormatter, null],
+            outputFormatter: formatter.outputTransactionReceiptFormatter
+        }),
+        new Method({
+            name: 'getTxpool',
+            call: 'scs_getTxpool',
+            params: 1,
+            inputFormatter: formatter.inputAddressFormatter
+        }),
+        // AppChain address + account address
+        new Method({
+            name: 'getExchangeByAddress',
+            call: 'scs_getExchangeByAddress',
+            params: 2,
+            inputFormatter: [formatter.inputAddressFormatter,formatter.inputAddressFormatter]
+        }),
+        new Method({
+            name: 'getExchangeInfo',
+            call: 'scs_getExchangeInfo',
+            params: 1,
+            inputFormatter: formatter.inputAddressFormatter
         }),
         new Method({
             name: 'getTransactionCount',
