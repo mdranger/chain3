@@ -4,7 +4,9 @@ This is a sub package of [chain3.js][repo]
 
 This is the accounts package to be used in the `chain3-mc` package.
 Please read the [documentation][docs] for more.
-Please not that MOAC used the same account structure as ETHEREUM project so the account generated in ETHEREUM WEB3 can be used in MOAC.
+Please note that MOAC used the same account structure as ETHEREUM project 
+so the account generated in ETHEREUM WEB3 can be used in MOAC. 
+However, the message sign and TX sign results are different due to extra fields added to the TX structure.
 
 ## Installation
 

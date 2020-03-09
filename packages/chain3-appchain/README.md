@@ -31,10 +31,11 @@ This will expose the `Chain3AppChain` object on the window object.
 // in node.js
 var Chain3AppChain = require('chain3-appchain');
 
-// set provider for all later instances to use
+// set provider for later instances to use
 Chain3AppChain.setProvider('https://localhost:8546');
 Chain3AppChain.setSCSProvider('https://localhost:8548');
 
+// should use published AppChain contracts
 var appchain = new Chain3AppChain(jsonInterface, address);
 appchain.methods.somFunc().send({from: ....})
 .on('receipt', function(){

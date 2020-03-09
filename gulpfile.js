@@ -16,7 +16,7 @@ var exorcist = require('exorcist');
 var bower = require('bower');
 var streamify = require('gulp-streamify');
 var replace = require('gulp-replace');
-// var exec = require('child_process').exec;
+// var exec = require('child_process').exec;// only used to publish the versions
 
 var DEST = path.join(__dirname, 'dist/');
 var CHAIN3_PACKAGE_DEST = path.join(__dirname, 'packages/chain3/dist');
@@ -46,6 +46,10 @@ var packages = [{
     fileName: 'chain3-scs',
     expose: 'Chain3Scs',
     src: './packages/chain3-scs/src/index.js'
+},  {
+    fileName: 'chain3-appchain',
+    expose: 'Chain3AppChain',
+    src: './packages/chain3-appchain/src/index.js'
 }, {
     fileName: 'chain3-core-method',
     expose: 'Chain3Method',

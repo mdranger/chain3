@@ -19,9 +19,9 @@
  *
  * To initialize a contract use:
  *
- *  var Contract = require('chain3-mc-contract');
- *  Contract.setProvider('ws://localhost:8546');
- *  var contract = new Contract(abi, address, ...);
+ *  var AppChain = require('chain3-mc-contract');
+ *  AppChain.setProvider('ws://localhost:8546');
+ *  var contract = new AppChain(abi, address, ...);
 
  * @date 2017
  */
@@ -43,20 +43,21 @@ var abi = require('web3-eth-abi');
 
 
 /**
- * Should be called to create new contract instance
+ * Should be called to create new AppChain instance,
+ * requires an existing AppChain already setup
  *
- * @method Contract
+ * @method AppChain
  * @constructor
  * @param {Array} jsonInterface
  * @param {String} address
  * @param {Object} options
  */
-var Contract = function Contract(jsonInterface, address, options) {
+var AppChain = function AppChain(jsonInterface, address, options) {
     var _this = this,
         args = Array.prototype.slice.call(arguments);
 
-    if(!(this instanceof Contract)) {
-        throw new Error('Please use the "new" keyword to instantiate a web3.eth.contract() object!');
+    if(!(this instanceof AppChain)) {
+        throw new Error('Please use the "new" keyword to instantiate a chain3.mc.appChain() object!');
     }
 
     // sets _requestmanager
@@ -67,7 +68,7 @@ var Contract = function Contract(jsonInterface, address, options) {
 
 
     if(!jsonInterface || !(Array.isArray(jsonInterface))) {
-        throw new Error('You must provide the json interface of the contract when instantiating a contract object.');
+        throw new Error('You must provide the json interface of the AppChain when instantiating an AppChain object.');
     }
 
 
@@ -219,11 +220,12 @@ var Contract = function Contract(jsonInterface, address, options) {
 
 };
 
-Contract.setProvider = function(provider, accounts) {
-    // Contract.currentProvider = provider;
+// Setup the VNODE provider
+AppChain.setProvider = function(provider, accounts) {
+    // AppChain.currentProvider = provider;
     core.packageInit(this, [provider]);
 
-    this._ethAccounts = accounts;
+    this._mcAccounts = accounts;
 };
 
 
@@ -234,7 +236,7 @@ Contract.setProvider = function(provider, accounts) {
  * @param {Array} args
  * @return {Function} the callback
  */
-Contract.prototype._getCallback = function getCallback(args) {
+AppChain.prototype._getCallback = function getCallback(args) {
     if (args && _.isFunction(args[args.length - 1])) {
         return args.pop(); // modify the args array!
     }
@@ -248,7 +250,7 @@ Contract.prototype._getCallback = function getCallback(args) {
  * @param {String} event
  * @return {Object} the contract instance
  */
-Contract.prototype._checkListener = function(type, event){
+AppChain.prototype._checkListener = function(type, event){
     if(event === type) {
         throw new Error('The event "'+ type +'" is a reserved event name, you can\'t use it.');
     }
@@ -262,7 +264,7 @@ Contract.prototype._checkListener = function(type, event){
  * @param {Object} options the options gived by the user
  * @return {Object} the options with gaps filled by defaults
  */
-Contract.prototype._getOrSetDefaultOptions = function getOrSetDefaultOptions(options) {
+AppChain.prototype._getOrSetDefaultOptions = function getOrSetDefaultOptions(options) {
     var gasPrice = options.gasPrice ? String(options.gasPrice): null;
     var from = options.from ? utils.toChecksumAddress(formatters.inputAddressFormatter(options.from)) : null;
 
@@ -287,7 +289,7 @@ Contract.prototype._getOrSetDefaultOptions = function getOrSetDefaultOptions(opt
  * @param {Object} options
  * @return {Object} everything combined together and encoded
  */
-Contract.prototype._encodeEventABI = function (event, options) {
+AppChain.prototype._encodeEventABI = function (event, options) {
 	//console.log('core contract,option:'+JSON.stringify(options));
     options = options || {};
     var filter = options.filter || {},
@@ -355,7 +357,7 @@ Contract.prototype._encodeEventABI = function (event, options) {
  * @param {Object} data
  * @return {Object} result object with decoded indexed && not indexed params
  */
-Contract.prototype._decodeEventABI = function (data) {
+AppChain.prototype._decodeEventABI = function (data) {
     var event = this;
 
     data.data = data.data || '';
@@ -404,7 +406,7 @@ Contract.prototype._decodeEventABI = function (data) {
  * @param {Mixed} args the arguments to encode
  * @param {String} the encoded ABI
  */
-Contract.prototype._encodeMethodABI = function _encodeMethodABI() {
+AppChain.prototype._encodeMethodABI = function _encodeMethodABI() {
     var methodSignature = this._method.signature,
         args = this.arguments || [];
 
@@ -457,7 +459,7 @@ Contract.prototype._encodeMethodABI = function _encodeMethodABI() {
  * @param {String} returnValues
  * @return {Object} decoded output return values
  */
-Contract.prototype._decodeMethodReturn = function (outputs, returnValues) {
+AppChain.prototype._decodeMethodReturn = function (outputs, returnValues) {
     if (!returnValues) {
         return null;
     }
@@ -475,16 +477,17 @@ Contract.prototype._decodeMethodReturn = function (outputs, returnValues) {
 
 
 /**
- * Deploys a contract and fire events based on its state: transactionHash, receipt
+ * Deploys a contract on the AppChain
+ * TODO // and fire events based on its state: transactionHash, receipt
  *
  * All event listeners will be removed, once the last possible event is fired ("error", or "receipt")
  *
  * @method deploy
- * @param {Object} options
+ * @param {Object} options[arguments, data]
  * @param {Function} callback
  * @return {Object} EventEmitter possible events are "error", "transactionHash" and "receipt"
  */
-Contract.prototype.deploy = function(options, callback){
+AppChain.prototype.deployContract = function(options, callback){
 
     options = options || {};
 
@@ -506,7 +509,7 @@ Contract.prototype.deploy = function(options, callback){
         method: constructor,
         parent: this,
         deployData: options.data,
-        _ethAccounts: this.constructor._ethAccounts
+        _mcAccounts: this.constructor._mcAccounts
     }, options.arguments);
 
 };
@@ -520,7 +523,7 @@ Contract.prototype.deploy = function(options, callback){
  * @param {Function} callback
  * @return {Object} the event options object
  */
-Contract.prototype._generateEventOptions = function() {
+AppChain.prototype._generateEventOptions = function() {
     var args = Array.prototype.slice.call(arguments);
 
     // get the callback
@@ -558,7 +561,7 @@ Contract.prototype._generateEventOptions = function() {
  * @method clone
  * @return {Object} the event subscription
  */
-Contract.prototype.clone = function() {
+AppChain.prototype.clone = function() {
     return new this.constructor(this.options.jsonInterface, this.options.address, this.options);
 };
 
@@ -572,7 +575,7 @@ Contract.prototype.clone = function() {
  * @param {Function} callback
  * @return {Object} the event subscription
  */
-Contract.prototype.once = function(event, options, callback) {
+AppChain.prototype.once = function(event, options, callback) {
     var args = Array.prototype.slice.call(arguments);
 
     // get the callback
@@ -606,7 +609,7 @@ Contract.prototype.once = function(event, options, callback) {
  * @param {Function} callback
  * @return {Object} the event subscription
  */
-Contract.prototype._on = function(){
+AppChain.prototype._on = function(){
     var subOptions = this._generateEventOptions.apply(this, arguments);
 
 
@@ -652,7 +655,7 @@ Contract.prototype._on = function(){
  * @param {Function} callback
  * @return {Object} the promievent
  */
-Contract.prototype.getPastEvents = function(){
+AppChain.prototype.getPastEvents = function(){
     var subOptions = this._generateEventOptions.apply(this, arguments);
 
     var getPastLogs = new Method({
@@ -673,11 +676,12 @@ Contract.prototype.getPastEvents = function(){
 
 /**
  * returns the an object with call, send, estimate functions
+ * inherit from parent obj
  *
  * @method _createTxObject
  * @returns {Object} an object with functions to call the methods
  */
-Contract.prototype._createTxObject =  function _createTxObject(){
+AppChain.prototype._createTxObject =  function _createTxObject(){
     var args = Array.prototype.slice.call(arguments);
     var txObject = {};
 
@@ -703,7 +707,8 @@ Contract.prototype._createTxObject =  function _createTxObject(){
     txObject.arguments = args || [];
     txObject._method = this.method;
     txObject._parent = this.parent;
-    txObject._ethAccounts = this.parent.constructor._ethAccounts || this._ethAccounts;
+    // Notice the parent could be web3.js obj, which may only has ethAccounts
+    txObject._mcAccounts = this.parent.constructor._ethAccounts || this._mcAccounts || this.parent.constructor._mcAccounts;
 
     if(this.deployData) {
         txObject._deployData = this.deployData;
@@ -720,7 +725,7 @@ Contract.prototype._createTxObject =  function _createTxObject(){
  * @param {Array} args
  * @param {Promise} defer
  */
-Contract.prototype._processExecuteArguments = function _processExecuteArguments(args, defer) {
+AppChain.prototype._processExecuteArguments = function _processExecuteArguments(args, defer) {
     var processedArgs = {};
 
     processedArgs.type = args.shift();
@@ -756,13 +761,13 @@ Contract.prototype._processExecuteArguments = function _processExecuteArguments(
 };
 
 /**
- * Executes a call, transact or estimateGas on a contract function
+ * Executes a call, transact or estimateGas on a AppChain function
  *
  * @method _executeMethod
  * @param {String} type the type this execute function should execute
  * @param {Boolean} makeRequest if true, it simply returns the request parameters, rather than executing it
  */
-Contract.prototype._executeMethod = function _executeMethod(){
+AppChain.prototype._executeMethod = function _executeMethod(){
     var _this = this,
         args = this._parent._processExecuteArguments.call(this, Array.prototype.slice.call(arguments), defer),
         defer = promiEvent((args.type !== 'send')),
@@ -903,4 +908,4 @@ Contract.prototype._executeMethod = function _executeMethod(){
 
 };
 
-module.exports = Contract;
+module.exports = AppChain;

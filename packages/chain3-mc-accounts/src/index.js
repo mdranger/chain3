@@ -197,11 +197,9 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
         try {
             // note the MOAC tx object is different from Ethereum tx object
             // with extra fields
-            // console.log("==========================================");
-            // console.log("Before:", tx);
+
             tx = helpers.formatters.inputCallFormatter(tx);
-// console.log("before:", tx);
-// console.log("==========================================");
+
             var transaction = tx;
             transaction.to = tx.to || '0x';
             transaction.data = tx.data || '0x';
@@ -210,7 +208,7 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
             transaction.shardingFlag = utils.numberToHex(tx.shardingFlag);
             transaction.systemContract = '0x0'; //System contract flag, always = 0
             transaction.via = tx.via || '0x'; //vnode subchain address
-// console.log("After:", transaction);
+
             //Encode the TX for signature
             //   type txdata struct {
             // AccountNonce uint64          `json:"nonce"    gencodec:"required"`
@@ -243,44 +241,49 @@ Accounts.prototype.signTransaction = function signTransaction(tx, privateKey, ca
                 "0x"]);
 
             var hash = Hash.keccak256(rlpEncoded);
-    // for MOAC, keep 9 fields instead of 6
-    var vPos = 9;
 
-    //Sign the hash with the private key to produce the
-    //V, R, S
-    // var newsign = ecsign(hash, stripHexPrefix(privateKey));
-    // var rawTx = RLP.decode(rlpEncoded).slice(0, vPos + 3);
+            // for MOAC, keep 9 fields instead of 6
+            var vPos = 9;
 
-    if (error) {
-            callback(error);
-            return Promise.reject(error);
-    }
+            //Sign the hash with the private key to produce the
+            //V, R, S
+            // var newsign = ecsign(hash, stripHexPrefix(privateKey));
+            // var rawTx = RLP.decode(rlpEncoded).slice(0, vPos + 3);
 
-    var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
+            if (error) {
+                    callback(error);
+                    return Promise.reject(error);
+            }
 
-    var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));    
+            var newsign = Account.makeSigner(Nat.toNumber(transaction.chainId || "0x1") * 2 + 35)(Hash.keccak256(rlpEncoded), privateKey);
 
-    //Replace the V field with chainID info
-    var newV = newsign.v + 8 + transaction.chainId * 2;
+            var rawTx = RLP.decode(rlpEncoded).slice(0, vPos).concat(Account.decodeSignature(newsign));    
 
-    // dont allow uneven r,s,v values
-    // there could be 0 when convert the buffer to HEX.
-    // In the RLP encoding/decoding rules, 
-    // note that the required sig needs certain length,
-    rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));                 
-    rawTx[vPos+1]  = makeEven(trimLeadingZero(rawTx[vPos+1]));
-    rawTx[vPos+2]  = makeEven(trimLeadingZero(rawTx[vPos+2]));
+            //Replace the V field with chainID info
+            var newV = newsign.v + 8 + transaction.chainId * 2;
+
+            // dont allow uneven r,s,v values
+            // there could be 0 when convert the buffer to HEX.
+            // In the RLP encoding/decoding rules, 
+            // note that the required sig needs certain length,
+            rawTx[vPos]  = makeEven(trimLeadingZero(rawTx[vPos]));                 
+            rawTx[vPos+1]  = makeEven(trimLeadingZero(rawTx[vPos+1]));
+            rawTx[vPos+2]  = makeEven(trimLeadingZero(rawTx[vPos+2]));
 
 
-    var rawTransaction = RLP.encode(rawTx);
+            var rawTransaction = RLP.encode(rawTx);
+            var transactionHash = Hash.keccak256(rawTransaction);
 
             var values = RLP.decode(rawTransaction);
+
+            // put the info to the output result
             result = {
                 messageHash: hash,
                 v: trimLeadingZero(values[vPos]),
                 r: trimLeadingZero(values[vPos+1]),
                 s: trimLeadingZero(values[vPos+2]),
-                rawTransaction: rawTransaction
+                rawTransaction: rawTransaction,
+                transactionHash: transactionHash
             };
 
         } catch(e) {

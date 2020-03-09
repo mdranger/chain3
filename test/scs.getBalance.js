@@ -1,8 +1,5 @@
 var testMethod = require('./helpers/test.method.js');
-var Scs = require('../packages/chain3-scs');
-
-var scs = new Scs();
-
+// Returns the requested account balance at the AppChain on the connecting SCS.
 var method = 'getBalance';
 
 var tests = [{
@@ -11,9 +8,9 @@ var tests = [{
     result: '0x31981',
     formattedResult: '203137',
     call: 'scs_'+ method
-},{
+},{// Notice the return values will have a block number 
     args: ['0xdbdbdb2cbd23b783741e8d7fcf51e459b497e4a6','0x000000000000000000000000000000000000012d'],
-    formattedArgs: ['0xdbdbdb2cbd23b783741e8d7fcf51e459b497e4a6','0x000000000000000000000000000000000000012d'],
+    formattedArgs: ['0xdbdbdb2cbd23b783741e8d7fcf51e459b497e4a6','0x000000000000000000000000000000000000012d','latest'],
     result: '0x31981',
     formattedResult: '203137',
     call: 'scs_'+ method

@@ -29,6 +29,7 @@ var utils = require('web3-utils');
 var Mc = require('../../chain3-mc');
 // var Mc = require('chain3-mc');
 var Scs = require('../../chain3-scs');
+var AppChain = require('../../chain3-appchain');
 
 // Constructor of the Chain3 object
 // add scs, appchain(later)
@@ -36,7 +37,6 @@ var Chain3 = function Chain3() {
     var _this = this;
 
     // sets _requestmanager etc
-    //console.log("chain3 will package init");
     core.packageInit(this, arguments);
 
     this.version = version;
@@ -49,34 +49,37 @@ var Chain3 = function Chain3() {
     var setProvider = this.setProvider;
     this.setProvider = function (provider, net) {
         setProvider.apply(_this, arguments);
-		//console.log("chain3 will set provider");
-
         this.mc.setProvider(provider, net);
 
         return true;
     };
 
-    // For AppChain usage
-    var setScsProvider = this.setScsProvider;
-    this.setScsProvider = function (provider, net) {
-        setScsProvider.apply(_this, arguments);
-        //console.log("chain3 will set provider");
+    // For AppChain usage, need to add additional provider
+    // Only keep in the SCS package, not here
+    // var setScsProvider = this.setScsProvider;
+    // this.setScsProvider = function (provider, net) {
+    //     setScsProvider.apply(_this, arguments);
+    //     //console.log("chain3 will set provider");
 
-        this.scs.setProvider(provider, net);
+    //     this.scs.setProvider(provider, net);
 
-        return true;
-    };
+    //     return true;
+    // };
 };
 
+// Add modules
 Chain3.version = version;
 Chain3.utils = utils;
+
+// Default modules 
 Chain3.modules = {
     Mc: Mc,
     Scs: Scs,
     Net: Net,
+    AppChain: AppChain,
     Personal: Personal
 };
-//console.log("chain3 will add provider");
+
 // Notice this only add VNODE providers, 
 // SCS provider only in the scs obj
 core.addProviders(Chain3);

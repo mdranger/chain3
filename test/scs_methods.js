@@ -1,5 +1,4 @@
 var chai = require('chai');
-var assert = chai.assert;
 var u = require('./helpers/test.utils.js');
 
 /*
